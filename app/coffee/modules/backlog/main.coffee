@@ -42,7 +42,6 @@ module = angular.module("taigaBacklog")
 class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.FiltersMixin, taiga.UsFiltersMixin)
     @.$inject = [
         "$scope",
-        "$sce",
         "$rootScope",
         "$tgRepo",
         "$tgConfirm",
@@ -69,7 +68,7 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
     backlogOrder: {}
     milestonesOrder: {}
 
-    constructor: (@scope, @sce, @rootscope, @repo, @confirm, @rs, @params, @q, @location, @appMetaService, @navUrls,
+    constructor: (@scope, @rootscope, @repo, @confirm, @rs, @params, @q, @location, @appMetaService, @navUrls,
                   @events, @analytics, @translate, @loading, @rs2, @modelTransform, @errorHandlingService,
                   @storage, @filterRemoteStorageService, @projectService) ->
         bindMethods(@)
@@ -113,8 +112,12 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
         # On Error
         promise.then null, @.onInitialDataError.bind(@)
 
-    trustSrcurl: (data) ->
-        @sce.trustAsResourceUrl(data)
+    # функция для проверки существования изображения на сервере
+    imageExists: (imageUrl) ->
+        http = new XMLHttpRequest
+        http.open 'HEAD', imageUrl, false
+        http.send()
+        http.status != 404
 
     filtersReloadContent: () ->
         @.loadUserstories(true)
@@ -345,7 +348,6 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
             if stats.speed > 0 && backlog_points_sum > stats.speed
                 break
 
-
     loadProject: ->
         project = @projectService.project.toJS()
 
@@ -354,6 +356,34 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
 
         @scope.projectId = project.id
         @scope.project = project
+
+        # путь к снэпшоту Cumulative Flow Diagram
+        cmd_path = 'http://localhost:8000/media/agile_stats_snapshots/cfd/cfd_project_' + @scope.project.id + '.png'
+        if @imageExists(cmd_path)
+            @scope.cmd_path = cmd_path
+        else
+            @scope.cmd_path = null
+
+        # путь к снэпшоту User Story Dependency graph
+        us_dep_path = 'http://localhost:8000/media/agile_stats_snapshots/dot/dependencies_project_' + @scope.project.id + '.png'
+        if @imageExists(us_dep_path)
+            @scope.us_dep_path = us_dep_path
+        else
+            @scope.us_dep_path = null
+
+        # путь к снэпшоту Burnup graph
+        burnup_path = 'http://localhost:8000/media/agile_stats_snapshots/burnup/burnup_project_' + @scope.project.id + '.png'
+        if @imageExists(burnup_path)
+            @scope.burnup_path = burnup_path
+        else
+            @scope.burnup_path = null
+
+        # путь к снэпшоту Velocity chart
+        velocity_path = 'http://localhost:8000/media/agile_stats_snapshots/velocity/velocity_project_' + @scope.project.id + '.png'
+        if @imageExists(velocity_path)
+            @scope.velocity_path = velocity_path
+        else
+            @scope.velocity_path = null
 
         @scope.closedMilestones = !!project.total_closed_milestones
         @scope.$emit('project:loaded', project)
@@ -595,7 +625,6 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
             end = moment(sprint.estimated_finish, 'YYYY-MM-DD').format('x')
 
             return currentDate >= start && currentDate <= end
-
 
 module.controller("BacklogController", BacklogController)
 
@@ -1234,72 +1263,3 @@ TgBacklogProgressBarDirective = ($template, $compile) ->
     return {link: link}
 
 module.directive("tgBacklogProgressBar", ["$tgTemplate", "$compile", TgBacklogProgressBarDirective])
-
-
-TgZoomDirective = ($window) ->
-
-    link = ($scope, $element, $attrs) ->
-        #SETUP
-        frame = undefined
-        image = undefined
-        zoomlvl = undefined
-        fWidth = undefined
-        fHeight = undefined
-        rect = undefined
-        rootDoc = undefined
-        offsetL = undefined
-        offsetT = undefined
-        xPosition = undefined
-        yPosition = undefined
-        pan = undefined
-        #Template has loaded, grab elements.
-        $scope.$watch '$viewContentLoaded', ->
-            frame = angular.element(document.querySelector('#' + $scope.frame))[0]
-            image = angular.element(document.querySelector('#' + $scope.img))[0]
-            zoomlvl = if $scope.zoomlvl == undefined then '2.5' else $scope.zoomlvl
-            return
-        #MOUSE TRACKER OVER IMG
-
-        $scope.trackMouse = ($event) ->
-            fWidth = frame.clientWidth
-            fHeight = frame.clientHeight
-            rect = frame.getBoundingClientRect()
-            rootDoc = frame.ownerDocument.documentElement
-            #calculate the offset of the frame from the top and left of the document
-            offsetT = rect.top + $window.pageYOffset - (rootDoc.clientTop)
-            offsetL = rect.left + $window.pageXOffset - (rootDoc.clientLeft)
-            #calculate current cursor position inside the frame, as a percentage
-            xPosition = ($event.pageX - offsetL) / fWidth * 100
-            yPosition = ($event.pageY - offsetT) / fHeight * 100
-            pan = xPosition + '% ' + yPosition + '% 0'
-            image.style.transformOrigin = pan
-            return
-
-        #MOUSE OVER | ZOOM-IN
-        $element.on 'mouseover', (event) ->
-            image.style.transform = 'scale(' + zoomlvl + ')'
-            image.style.border = '2px solid #000'
-            return
-        #MOUSE OUT | ZOOM-OUT
-        $element.on 'mouseout', (event) ->
-            image.style.transform = 'scale(1)'
-            image.style.border = ''
-            return
-        return
-
-    return {
-        restrict: 'EA'
-        scope:
-            src: '@src'
-            frame: '@frame'
-            img: '@img'
-            zoomlvl: '@zoomlvl'
-        template: [
-            '<div id="{{ frame }}" class="zoomPanFrame" >'
-            '<img id="{{ img }}" class="zoomPanImage" ng-src= "{{ src }}" ng-mousemove="trackMouse($event)" width="100%" style="cursor: zoom-in; position: relative; z-index: 1000"></img>'
-            '</div>'
-        ].join('')
-        link: link
-    }
-
-module.directive("tgZoomDirective", ["$window", TgZoomDirective])
