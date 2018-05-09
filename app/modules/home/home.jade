@@ -1,9 +1,62 @@
 doctype html
 
+h1(style='margin-left: 30px')
+    span.green {{"HOME.DASHBOARD" | translate}}
+
+#demo
+    .table-responsive-vertical.shadow-z-1
+        table#table.table.table-hover.table-bordered.table-mc-light-green
+            thead
+                tr
+                    th Проект
+                    th Расчётное время окончания
+                    th Расчётный % выполнения к сроку
+                    th Индикатор
+            tbody
+                tr
+                    td(data-title="projectName") Project Example 0
+                    td(data-title="time") 8 недель
+                    td(data-title="percent") 22
+                    td(data-title="indicator", style="background-color: red")
+                tr
+                    td(data-title="projectName") Project Example 1
+                    td(data-title="time") 3 недели
+                    td(data-title="percent") 17
+                    td(data-title="indicator", style="background-color: red")
+                tr
+                    td(data-title="projectName") Project Example 2
+                    td(data-title="time") 6 недель
+                    td(data-title="percent") 5
+                    td(data-title="indicator", style="background-color: red")
+                tr
+                    td(data-title="projectName") Project Example 4
+                    td(data-title="time") 25 недель
+                    td(data-title="percent") 0
+                    td(data-title="indicator", style="background-color: black")
+                tr
+                    td(data-title="projectName") Project Example 5
+                    td(data-title="time") 27 недель
+                    td(data-title="percent") 0
+                    td(data-title="indicator", style="background-color: black")
+                tr
+                    td(data-title="projectName") test project
+                    td(data-title="time") 30 недель
+                    td(data-title="percent") 0
+                    td(data-title="indicator", style="background-color: black")
+                tr
+                    td(data-title="projectName") Test board
+                    td(data-title="time") 26 недель
+                    td(data-title="percent") 0
+                    td(data-title="indicator", style="background-color: black")
+                tr
+                    td(data-title="projectName") Проект группы 11-406
+                    td(data-title="time") 18 недель
+                    td(data-title="percent") 0
+                    td(data-title="indicator", style="background-color: black")
+
 div.home-wrapper.centered
+
     div.duty-summary
-        h1
-            span.green {{"HOME.DASHBOARD" | translate}}
         tg-working-on.dashboard-container
 
     aside.project-list(tg-home-project-list)
