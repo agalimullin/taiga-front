@@ -47,7 +47,8 @@
         "RELATED_USERSTORIES": "Связанные пользовательские истории",
         "CARD": {
             "ASSIGN_TO": "Assign To",
-            "EDIT": "Edit card"
+            "EDIT": "Edit card",
+            "DELETE": "Delete card"
         },
         "FORM_ERRORS": {
             "DEFAULT_MESSAGE": "Кажется, это значение некорректно.",
@@ -143,11 +144,14 @@
             "SEVERITY": "Важность",
             "PRIORITY": "Приоритет",
             "ASSIGNED_TO": "Назначено",
+            "ASSIGNED_USERS": "Assigned users",
             "POINTS": "Очки",
             "IS_BLOCKED": "заблокирован",
             "REF": "Ссылка",
             "VOTES": "Голоса",
-            "SPRINT": "Спринт"
+            "SPRINT": "Спринт",
+            "DUE_DATE": "Due date",
+            "DUE_DATE_REASON": "Due date reason"
         },
         "ROLES": {
             "ALL": "Все"
@@ -161,6 +165,17 @@
             "CONFIRM_UNASSIGNED": "Вы уверены что не хотите назначить ответственного?",
             "TITLE_ACTION_EDIT_ASSIGNMENT": "Изменить назначение",
             "SELF": "Назначено мне"
+        },
+        "DUE_DATE": {
+            "TITLE_ACTION_SET_DUE_DATE": "Set due date",
+            "DUE_SOON": "due soon",
+            "PAST_DUE": "past due date",
+            "NO_LONGER_APPLICABLE": "no longer applicable"
+        },
+        "ASSIGNED_USERS": {
+            "ADD": "Select assigned user",
+            "ADD_ASSIGNED": "Add assigned",
+            "TITLE_LIGHTBOX_DELETE_ASSIGNED": "Delete assigned..."
         },
         "STATUS": {
             "CLOSED": "Закрыт",
@@ -207,6 +222,7 @@
                 "PRIORITIES": "Приоритеты",
                 "TAGS": "Тэги",
                 "ASSIGNED_TO": "Назначено",
+                "ROLE": "Роль",
                 "CREATED_BY": "Создано",
                 "CUSTOM_FILTERS": "Собственные фильтры",
                 "EPIC": "Epic"
@@ -217,7 +233,7 @@
             "DB_CLICK": "двойной клик для редактирования",
             "SELECT_LANGUAGE_PLACEHOLDER": "Выбор языка",
             "SELECT_LANGUAGE_REMOVE_FORMATING": "Убрать форматирование",
-            "OUTDATED": "Another person has made changes while you were editing. Check the new version on the activity tab before you save your changes.",
+            "OUTDATED": "Другой пользователь внес изменения в систему. Проверьте новую версию на вкладке активности, прежде чем вы сохраните ваши изменения.",
             "MARKDOWN_HELP": "Помощь по синтаксису Markdown"
         },
         "PERMISIONS_CATEGORIES": {
@@ -412,7 +428,7 @@
         "DEPRECATED_FILE": "Устаревший?",
         "ADD": "Добавить вложение. {{maxFileSizeMsg}}",
         "DROP": "Перетяните вложение сюда",
-        "SHOW_DEPRECATED": "Показать устаревшие приложения",
+        "SHOW_DEPRECATED": "+ Показать устаревшие приложения",
         "HIDE_DEPRECATED": "- спрятать устаревшие приложения",
         "COUNT_DEPRECATED": "({{ counter }} устарело)",
         "MAX_UPLOAD_SIZE": "Максимальный объем для загрузки {{maxFileSize}}",
@@ -611,7 +627,7 @@
             "WARNING_DELETE_ROLE": "Be careful! All role estimations will be removed",
             "ERROR_DELETE_ALL": "Вы не можете удалить все значения",
             "EXTERNAL_USER": "Внешний пользователь",
-            "NOTE_EXTERNAL_USERS": "<strong>Note:</strong> by External User we mean any anonymous user not belonging to the Taiga platform, including search engines. Please use this role with care."
+            "NOTE_EXTERNAL_USERS": "<strong>Примечание:</strong> под 'внешним пользователем' мы имеем ввиду анонимного пользователя, не имеющего платформы Taiga, включая поисковые движки. Пожалуйста, используйте этот функционал с осторожностью."
         },
         "THIRD_PARTIES": {
             "SECRET_KEY": "Секретный ключ",
@@ -689,7 +705,7 @@
             "DEFAULT_DELETE_MESSAGE": "приглашение на {{email}}"
         },
         "DEFAULT_VALUES": {
-            "LABEL_EPIC_STATUS": "Default value for epic status selector",
+            "LABEL_EPIC_STATUS": "Значение по умолчанию для селектора эпического статуса",
             "LABEL_US_STATUS": "Выбор значения статуса по умолчанию для пользовательской истории",
             "LABEL_POINTS": "Значения по умолчанию для выбора очков",
             "LABEL_TASK_STATUS": "Значение по умолчанию для статуса задачи",
@@ -875,7 +891,7 @@
             "TEMPLATE_SCRUM_LONGDESC": "Скрам это методология управления процессом разработки программного обеспечения построенная на коротких итерациях и постепенном прогрессе. Бэклог по продукту это те задачи которые нужно сделать, отсортированные в порядке приоритета. Бэклоги разбиваются на относительно короткие, управляемые куски - спринты. На основании возможностей, навыков и ресурсов команды в каждый спринт вносится несколько выбранных пользовательских историй из бэклога. На каждый спринт выделяется оговоренный период времени. С развитием проекта бэклог уменьшается.",
             "TEMPLATE_KANBAN": "Kanban",
             "TEMPLATE_KANBAN_DESC": "Придерживайтесь одинаковых принципов работы над независимыми задачами",
-            "TEMPLATE_KANBAN_LONGDESC": "The Kanban methodology is used to divide project development (any sort of project) into stages.\nA kanban card is like an index card or post-it note that details every task (or user story) in a project that needs to be completed. The Kanban board is used to move each card from one state of completion to the next and in so doing, helps track progress.",
+            "TEMPLATE_KANBAN_LONGDESC": "Метод \"Канбан\" используется, чтобы разделить разработку проекта (проекта любого типа) на стадии. В этой методологоии, карточки похожи на примечания, которые описывают каждую задачу (или пользовательскую историю) проекта, который должен быть выполнен. Карточки в системе, построенной на методе \"Канбан\", обычно переводятся из одного состояния завершенности в другое, таким образом позволяя отслеживать прогресс всего проекта.",
             "DUPLICATE": "Клонировать проект",
             "DUPLICATE_DESC": "Начните сначала и сохраняйте вашу конфигурацию",
             "IMPORT": "Импортировать проект",
@@ -922,7 +938,7 @@
             "CHOOSE": "Выбрать пользователя",
             "LINKS": "Связь с {{platform}}",
             "LINKS_DESCRIPTION": "Do you want to keep the link of each item with the original {{platform}} card?",
-            "WARNING_MAIL_USER": "Note that if the user does not have a Taiga account we will not be able to assign the tasks to him.",
+            "WARNING_MAIL_USER": "Заметьте, если у пользователя нету аккаунта Taiga, мы не сможем назначить ему задачи.",
             "ASSIGN": "Назначить",
             "PROJECT_SELECTOR": {
                 "NO_RESULTS": "It looks like nothing was found with your search criteria",
@@ -1016,7 +1032,7 @@
             "CONFIRM": "Вы уверены, что хотите удалить ваш аккаунт?",
             "CANCEL": "Вернуться к настройкам",
             "ACCEPT": "Удалить аккаунт",
-            "BLOCK_PROJECT": "Note that all the projects you own projects will be <strong>blocked</strong> after you delete your account. If you do want a project blocked, transfer ownership to another member of each project prior to deleting your account."
+            "BLOCK_PROJECT": "Note that all the projects you own projects will be <strong>blocked</strong> after you delete your account. If you do not want a project blocked, transfer ownership to another member of each project prior to deleting your account."
         },
         "DELETE_PROJECT": {
             "TITLE": "Удалить проект",
@@ -1065,13 +1081,19 @@
             "PLACEHOLDER_STATUS": "Статус задачи",
             "OPTION_UNASSIGNED": "Не назначено",
             "PLACEHOLDER_SHORT_DESCRIPTION": "Введите краткое описание",
-            "ACTION_EDIT": "Редактировать задачу"
+            "ACTION_EDIT": "Редактировать задачу",
+            "CONFIRM_CLOSE": "You have not saved changes.\nAre you sure you want to close the form?"
         },
         "CREATE_EDIT_US": {
             "TITLE": "Новая ПИ",
             "PLACEHOLDER_DESCRIPTION": "Пожалуйста, добавьте описание, чтобы другие лучше поняли эту ПИ",
             "NEW_US": "Новая пользовательская история",
-            "EDIT_US": "Изменить пользовательскую историю"
+            "EDIT_US": "Изменить пользовательскую историю",
+            "CONFIRM_CLOSE": "You have not saved changes.\nAre you sure you want to close the form?"
+        },
+        "DELETE_DUE_DATE": {
+            "TITLE": "Delete due date",
+            "SUBTITLE": "Are you sure you want to delete this due date?"
         },
         "DELETE_SPRINT": {
             "TITLE": "Удалить спринт"
@@ -1103,6 +1125,19 @@
             "WARNING": "Сообщение будет отправлено администраторам проекта",
             "PLACEHOLDER": "Напишите Ваше сообщение",
             "SEND": "Отправить"
+        },
+        "SET_DUE_DATE": {
+            "TITLE": "Set due date",
+            "PLACEHOLDER_DUE_DATE": "Select date",
+            "REASON_FOR_DUE_DATE": "Reason for the due date",
+            "PLACEHOLDER_REASON_FOR_DUE_DATE": "Why does this US need a due date?",
+            "SUGGESTIONS": {
+                "IN_ONE_WEEK": "In one week",
+                "IN_TWO_WEEKS": "In two weeks",
+                "IN_ONE_MONTH": "In one month",
+                "IN_THREE_MONTHS": "In three months"
+            },
+            "TITLE_ACTION_DELETE_DUE_DATE": "Delete due date"
         }
     },
     "EPIC": {
@@ -1121,6 +1156,7 @@
         "CHOOSE_PROJECT_FROM": "Какой проект Вам нужен?",
         "CHOOSE_USERSTORY": "Опишите пользовательскую историю",
         "NO_USERSTORIES": "В проекте нет ни одной пользовательской истории. Пожалуйста выберите другой проект.",
+        "NO_USERSTORIES_FOUND": "It looks like nothing was found with your search criteria",
         "FILTER_USERSTORIES": "Фильтровать ПИ",
         "LIGHTBOX_TITLE_BLOKING_EPIC": "Блокирующая задача",
         "ACTION_DELETE": "Удалить эпос"
@@ -1139,7 +1175,7 @@
         "TITLE_DELETE_ACTION": "Удалить пользовательскую историю",
         "LIGHTBOX_TITLE_BLOKING_US": "Блокирующая ПИ",
         "NOT_ESTIMATED": "Не оценено",
-        "OWNER_US": "This User Story belongs to",
+        "OWNER_US": "Эта пользовательская история принадлежит",
         "TRIBE": {
             "PUBLISH": "Publish as Gig in Taiga Tribe",
             "PUBLISH_INFO": "Больше инфо",
@@ -1190,14 +1226,19 @@
         "CLIENT_REQUIREMENT": "Требование клиента",
         "BLOCKED": "Заблокирован",
         "VALUES": {
+            "NOT_SET": "not set",
             "UNASSIGNED": "нет ответственного"
         },
         "FIELDS": {
             "SUBJECT": "название",
             "DESCRIPTION": "описание",
+            "PRIORITY": "приоритет",
+            "SEVERITY": "важность",
             "STATUS": "cтатус",
             "TYPE": "тип",
             "ASSIGNED_TO": "назначено на",
+            "ASSIGNED_USERS": "assigned users",
+            "DUE_DATE": "due date",
             "MILESTONE": "спринт",
             "COLOR": "цвет"
         }
@@ -1341,6 +1382,7 @@
         "SAVED": "Oompa Loompas сохранил изменения!",
         "CLOSE": "закрыть уведомление",
         "MAIL": "Уведомления почтой",
+        "DESKTOP": "Desktop notifications using browser alerts",
         "ASK_DELETE": "Вы уверены, что хотите удалить?"
     },
     "CANCEL_ACCOUNT": {
@@ -1456,9 +1498,11 @@
             "SECTION_TITLE": "Настройки пользователя",
             "USER_PROFILE": "Профиль пользователя",
             "CHANGE_PASSWORD": "Изменить пароль",
-            "EMAIL_NOTIFICATIONS": "Уведомления почтой"
+            "EMAIL_NOTIFICATIONS": "Уведомления почтой",
+            "DESKTOP_NOTIFICATIONS": "Desktop notifications"
         },
         "NOTIFICATIONS": {
+            "LIVE_SECTION_NAME": "Desktop Notifications",
             "SECTION_NAME": "Уведомления почтой",
             "COLUMN_PROJECT": "Проект",
             "COLUMN_RECEIVE_ALL": "Получать все",
@@ -1550,7 +1594,7 @@
         "TASK_UPDATED_WITH_US": "{{username}} изменил атрибут \"{{field_name}}\" задачи {{obj_name}}, которая принадлежит ПИ {{us_name}}",
         "TASK_UPDATED_WITH_US_NEW_VALUE": "{{username}} установил атрибут \"{{field_name}}\" задачи {{obj_name}}, которая принадлежит ПИ {{us_name}}, на {{new_value}}",
         "WIKI_UPDATED": "{{username}} обновил вики-страницу {{obj_name}}",
-        "EPIC_UPDATED": "{{username}} has updated the attribute \"{{field_name}}\" of the epic {{obj_name}}",
+        "EPIC_UPDATED": "{{username}} обновил атрибут \"{{field_name}}\" ПИ {{obj_name}}",
         "EPIC_UPDATED_WITH_NEW_VALUE": "{{username}} обновил атрибут поля \"{{field_name}}\" эпика {{obj_name}} на {{new_value}}",
         "EPIC_UPDATED_WITH_NEW_COLOR": "{{username}} обновил поле \"{{field_name}}\" эпика {{obj_name}} на <span class=\"new-color\" style=\"background: {{new_value}}\"></span>",
         "NEW_COMMENT_US": "{{username}} прокомментировал ПИ {{obj_name}}",

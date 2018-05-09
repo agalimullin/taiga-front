@@ -134,6 +134,12 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
 
             @filterRemoteStorageService.storeFilters(@scope.projectId, userFilters, 'tasks-custom-filters').then(@.generateFilters)
 
+    isFilterDataTypeSelected: (filterDataType) ->
+        for filter in @.selectedFilters
+            if (filter['dataType'] == filterDataType)
+                return true
+        return false
+
     saveCustomFilter: (name) ->
         filters = {}
         urlfilters = @location.search()
@@ -141,6 +147,7 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
         filters.status = urlfilters.status
         filters.assigned_to = urlfilters.assigned_to
         filters.owner = urlfilters.owner
+        filters.role = urlfilters.role
 
         @filterRemoteStorageService.getFilters(@scope.projectId, 'tasks-custom-filters').then (userFilters) =>
             userFilters[name] = filters
@@ -159,6 +166,7 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
         loadFilters.status = urlfilters.status
         loadFilters.assigned_to = urlfilters.assigned_to
         loadFilters.owner = urlfilters.owner
+        loadFilters.role = urlfilters.role
         loadFilters.q = urlfilters.q
 
         return @q.all([
@@ -189,6 +197,15 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
                 it.name = it.full_name || "Unassigned"
 
                 return it
+            role = _.map data.roles, (it) ->
+                if it.id
+                    it.id = it.id.toString()
+                else
+                    it.id = "null"
+
+                it.name = it.name || "Unassigned"
+
+                return it
             owner = _.map data.owners, (it) ->
                 it.id = it.id.toString()
                 it.name = it.full_name
@@ -213,6 +230,10 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
                 selected = @.formatSelectedFilters("owner", owner, loadFilters.owner)
                 @.selectedFilters = @.selectedFilters.concat(selected)
 
+            if loadFilters.role
+                selected = @.formatSelectedFilters("role", role, loadFilters.role)
+                @.selectedFilters = @.selectedFilters.concat(selected)
+
             @.filterQ = loadFilters.q
 
             @.filters = [
@@ -232,6 +253,11 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
                     title: @translate.instant("COMMON.FILTERS.CATEGORIES.ASSIGNED_TO"),
                     dataType: "assigned_to",
                     content: assignedTo
+                },
+                {
+                    title: @translate.instant("COMMON.FILTERS.CATEGORIES.ROLE"),
+                    dataType: "role",
+                    content: role
                 },
                 {
                     title: @translate.instant("COMMON.FILTERS.CATEGORIES.CREATED_BY"),
@@ -282,6 +308,9 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
             @.refreshTagsColors().then () =>
                 @taskboardTasksService.replaceModel(task)
 
+        @scope.$on "taskboard:task:deleted", (event, task) =>
+            @.loadTasks()
+
         @scope.$on("taskboard:task:move", @.taskMove)
         @scope.$on("assigned-to:added", @.onAssignedToChanged)
 
@@ -290,9 +319,10 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
 
         @taskboardTasksService.replaceModel(taskModel)
 
-        promise = @repo.save(taskModel)
-        promise.then null, ->
-            console.log "FAIL" # TODO
+        @repo.save(taskModel).then =>
+            @.generateFilters()
+            if @.isFilterDataTypeSelected('assigned_to') || @.isFilterDataTypeSelected('role')
+                @.loadTasks()
 
     initializeSubscription: ->
         routingKey = "changes.project.#{@scope.projectId}.tasks"
@@ -405,7 +435,7 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
     editTask: (id) ->
         task = @.taskboardTasksService.getTask(id)
 
-        task = task.set('loading', true)
+        task = task.set('loading-edit', true)
         @taskboardTasksService.replace(task)
 
         @rs.tasks.getByRef(task.getIn(['model', 'project']), task.getIn(['model', 'ref'])).then (editingTask) =>
@@ -413,6 +443,25 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
                 @rootscope.$broadcast("taskform:edit", editingTask, attachments.toJS())
                 task = task.set('loading', false)
                 @taskboardTasksService.replace(task)
+
+    deleteTask: (id) ->
+        task = @.taskboardTasksService.getTask(id)
+        task = task.set('loading-delete', true)
+
+        @rs.tasks.getByRef(task.getIn(['model', 'project']), task.getIn(['model', 'ref']))
+        .then (deletingTask) =>
+            task = task.set('loading-delete', false)
+            title = @translate.instant("TASK.TITLE_DELETE_ACTION")
+            message = deletingTask.subject
+            @confirm.askOnDelete(title, message).then (askResponse) =>
+                promise = @repo.remove(deletingTask)
+                promise.then =>
+                    @scope.$broadcast("taskboard:task:deleted")
+                    askResponse.finish()
+                promise.then null, ->
+                    askResponse.finish(false)
+                    @confirm.notify("error")
+
 
     taskMove: (ctx, task, oldStatusId, usId, statusId, order) ->
         task = @taskboardTasksService.getTaskModel(task.get('id'))
@@ -438,6 +487,10 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
                 @taskboardTasksService.assignOrders(order)
 
             @.loadSprintStats()
+            @.generateFilters()
+            if @.isFilterDataTypeSelected('status')
+                @.loadTasks()
+
 
     ## Template actions
     addNewTask: (type, us) ->

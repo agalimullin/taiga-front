@@ -47,7 +47,8 @@
         "RELATED_USERSTORIES": "Historias de usuario relacionadas",
         "CARD": {
             "ASSIGN_TO": "Asignado a",
-            "EDIT": "Editar tarjeta"
+            "EDIT": "Editar tarjeta",
+            "DELETE": "Elimina tarjeta"
         },
         "FORM_ERRORS": {
             "DEFAULT_MESSAGE": "Este valor parece inválido.",
@@ -143,11 +144,14 @@
             "SEVERITY": "Gravedad",
             "PRIORITY": "Prioridad",
             "ASSIGNED_TO": "Asignado a",
+            "ASSIGNED_USERS": "Usuarios asignados",
             "POINTS": "Puntos",
             "IS_BLOCKED": "está bloqueada",
             "REF": "Ref",
             "VOTES": "Votos",
-            "SPRINT": "Sprint"
+            "SPRINT": "Sprint",
+            "DUE_DATE": "Fecha de vencimiento",
+            "DUE_DATE_REASON": "Motivo  fecha de vencimiento"
         },
         "ROLES": {
             "ALL": "Todos"
@@ -161,6 +165,17 @@
             "CONFIRM_UNASSIGNED": "¿Está seguro de que desea dejarla sin asignar?",
             "TITLE_ACTION_EDIT_ASSIGNMENT": "Editar asignación",
             "SELF": "Asignármela"
+        },
+        "DUE_DATE": {
+            "TITLE_ACTION_SET_DUE_DATE": "Fijar fecha de vencimiento",
+            "DUE_SOON": "próximo vencimiento",
+            "PAST_DUE": "vencida",
+            "NO_LONGER_APPLICABLE": "ya no aplica"
+        },
+        "ASSIGNED_USERS": {
+            "ADD": "Selecciona usuario asignado",
+            "ADD_ASSIGNED": "Añadir asignación",
+            "TITLE_LIGHTBOX_DELETE_ASSIGNED": "Borra asignación..."
         },
         "STATUS": {
             "CLOSED": "Cerrada",
@@ -207,6 +222,7 @@
                 "PRIORITIES": "Prioridades",
                 "TAGS": "Etiquetas",
                 "ASSIGNED_TO": "Asignado a",
+                "ROLE": "Rol",
                 "CREATED_BY": "Creada por",
                 "CUSTOM_FILTERS": "Filtros personalizados",
                 "EPIC": "Épica"
@@ -217,7 +233,7 @@
             "DB_CLICK": "doble click para editar",
             "SELECT_LANGUAGE_PLACEHOLDER": "Selecciona un lenguaje",
             "SELECT_LANGUAGE_REMOVE_FORMATING": "Eliminar formato",
-            "OUTDATED": "Another person has made changes while you were editing. Check the new version on the activity tab before you save your changes.",
+            "OUTDATED": "Otra persona ha realizado cambios mientras tu estabas editando. Revisa la nueva versión en la pestaña de actividad antes de guardar tus cambios.",
             "MARKDOWN_HELP": "Ayuda de sintaxis Markdown"
         },
         "PERMISIONS_CATEGORIES": {
@@ -412,7 +428,7 @@
         "DEPRECATED_FILE": "¿Desactualizado?",
         "ADD": "Agrega nuevos adjunto. {{maxFileSizeMsg}}",
         "DROP": "¡Arrastre los archivos adjuntos aquí!",
-        "SHOW_DEPRECATED": "+ muestra adjuntos desactualizados",
+        "SHOW_DEPRECATED": "+ mostrar adjuntos obsoletos",
         "HIDE_DEPRECATED": "- ocultar adjuntos obsoletos",
         "COUNT_DEPRECATED": "({{ counter }} obsoletos)\n",
         "MAX_UPLOAD_SIZE": "El tamaño máximo de subida es de {{maxFileSize}}",
@@ -611,7 +627,7 @@
             "WARNING_DELETE_ROLE": "¡Ten cuidado! Todas las estimaciones de roles serán eliminados",
             "ERROR_DELETE_ALL": "No puedes eliminar todos los valores",
             "EXTERNAL_USER": "Usuario externo",
-            "NOTE_EXTERNAL_USERS": "<strong>Note:</strong> by External User we mean any anonymous user not belonging to the Taiga platform, including search engines. Please use this role with care."
+            "NOTE_EXTERNAL_USERS": "<strong>Nota:</strong> por Usuario Externo entendemos cualquier usuario anónimo no perteneciente a la plataforma Taiga, incluyendo motores de búsqueda. Por favor, usa este rol con cuidado."
         },
         "THIRD_PARTIES": {
             "SECRET_KEY": "Secret key",
@@ -1016,7 +1032,7 @@
             "CONFIRM": "¿Está seguro que deseas eliminar tu cuenta de Taiga?",
             "CANCEL": "Volver a los ajustes",
             "ACCEPT": "Eliminar cuenta",
-            "BLOCK_PROJECT": "Recuerde que todos los proyectos de los cuales usted es dueño seran <strong>bloqueados</strong> despues de eliminar su cuenta. si desea mantener un proyecto bloqueado, transfiera el dominio a otro usuario en cada proyecto antes de eliminar la cuenta."
+            "BLOCK_PROJECT": "Recuerde que todos los proyectos de los cuales usted es dueño serán <strong>bloqueados</strong> después de eliminar su cuenta. Si no desea que un proyecto sea bloqueado, transfiera la propiedad de cada proyecto a otro usuario antes de eliminar la cuenta."
         },
         "DELETE_PROJECT": {
             "TITLE": "Borrar proyecto",
@@ -1065,13 +1081,19 @@
             "PLACEHOLDER_STATUS": "Estado de tarea",
             "OPTION_UNASSIGNED": "No asignada",
             "PLACEHOLDER_SHORT_DESCRIPTION": "Escribe una breve descripción",
-            "ACTION_EDIT": "Editar tarea"
+            "ACTION_EDIT": "Editar tarea",
+            "CONFIRM_CLOSE": "Los cambios no están gurdados. ¿Seguro que quieres cerrar el formulario?"
         },
         "CREATE_EDIT_US": {
             "TITLE": "Nueva Historia de Usuario",
             "PLACEHOLDER_DESCRIPTION": "Por favor añade un texto descriptivo que pueda ayudar a otros a entender mejor esta historia.",
             "NEW_US": "Nueva historia de usuario",
-            "EDIT_US": "Editar historia de usuario"
+            "EDIT_US": "Editar historia de usuario",
+            "CONFIRM_CLOSE": "Los cambios no están gurdados. ¿Seguro que quieres cerrar el formulario?"
+        },
+        "DELETE_DUE_DATE": {
+            "TITLE": "Borrar fecha de vencimiento",
+            "SUBTITLE": "¿Seguro que quieres borrar la fecha de vencimiento?"
         },
         "DELETE_SPRINT": {
             "TITLE": "Borrar sprint"
@@ -1103,6 +1125,19 @@
             "WARNING": "Los administradores del proyecto recibirán el email",
             "PLACEHOLDER": "Escribe tu mensaje",
             "SEND": "Enviar"
+        },
+        "SET_DUE_DATE": {
+            "TITLE": "Fijar fecha de vencimiento",
+            "PLACEHOLDER_DUE_DATE": "Seleccionar fecha de vencimiento",
+            "REASON_FOR_DUE_DATE": "Motivo para fijar fecha de vencimiento",
+            "PLACEHOLDER_REASON_FOR_DUE_DATE": "¿Por qué esta historia de usuario necesita una fecha de vencimiento?",
+            "SUGGESTIONS": {
+                "IN_ONE_WEEK": "En una semana",
+                "IN_TWO_WEEKS": "En dos semanas",
+                "IN_ONE_MONTH": "En un mes",
+                "IN_THREE_MONTHS": "En tres meses"
+            },
+            "TITLE_ACTION_DELETE_DUE_DATE": "Borrar fecha de vencimiento"
         }
     },
     "EPIC": {
@@ -1121,6 +1156,7 @@
         "CHOOSE_PROJECT_FROM": "¿Qué es el proyecto?",
         "CHOOSE_USERSTORY": "Cual es la historia de usuario?",
         "NO_USERSTORIES": "Este proyecto no tiene historias de usuario todavia. Por favor, seleccione otro proyecto.",
+        "NO_USERSTORIES_FOUND": "Parece que no se encontro nada con este criterio de busqueda",
         "FILTER_USERSTORIES": "Filtrar historias de usuario",
         "LIGHTBOX_TITLE_BLOKING_EPIC": "Bloqueo de épica",
         "ACTION_DELETE": "Borrar epic"
@@ -1139,7 +1175,7 @@
         "TITLE_DELETE_ACTION": "Borrar Historia de Usuario",
         "LIGHTBOX_TITLE_BLOKING_US": "Historia bloqueada",
         "NOT_ESTIMATED": "No estimada",
-        "OWNER_US": "This User Story belongs to",
+        "OWNER_US": "Esta Historia de Usuario pertenece a",
         "TRIBE": {
             "PUBLISH": "Publicar como Gig en la Tribu Taiga",
             "PUBLISH_INFO": "Mas información",
@@ -1190,14 +1226,19 @@
         "CLIENT_REQUIREMENT": "Requerido por el Cliente",
         "BLOCKED": "Bloqueada",
         "VALUES": {
+            "NOT_SET": "Sin fijar",
             "UNASSIGNED": "sin asignar"
         },
         "FIELDS": {
             "SUBJECT": "asunto",
             "DESCRIPTION": "descripción",
+            "PRIORITY": "prioridad",
+            "SEVERITY": "gravedad",
             "STATUS": "estado",
             "TYPE": "tipo",
             "ASSIGNED_TO": "asignado a",
+            "ASSIGNED_USERS": "usuarios asignados",
+            "DUE_DATE": "fecha de vencimiento",
             "MILESTONE": "sprint",
             "COLOR": "color"
         }
@@ -1341,6 +1382,7 @@
         "SAVED": "¡Nuestros Oompa Loompas guardaron todos tus cambios!",
         "CLOSE": "Cerrar notificación",
         "MAIL": "Notificaciones Por Mail",
+        "DESKTOP": "Notificaciones de escritorio usando alertas de navegador",
         "ASK_DELETE": "¿Esta seguro que desea eliminar?"
     },
     "CANCEL_ACCOUNT": {
@@ -1456,9 +1498,11 @@
             "SECTION_TITLE": "Configuración de Usuario",
             "USER_PROFILE": "Perfil de usuario",
             "CHANGE_PASSWORD": "Cambiar contraseña",
-            "EMAIL_NOTIFICATIONS": "Notificaciones por email"
+            "EMAIL_NOTIFICATIONS": "Notificaciones por email",
+            "DESKTOP_NOTIFICATIONS": "Notificaciones de escritorio"
         },
         "NOTIFICATIONS": {
+            "LIVE_SECTION_NAME": "Notificaciones de escritorio",
             "SECTION_NAME": "Notificaciones por Email",
             "COLUMN_PROJECT": "Proyecto",
             "COLUMN_RECEIVE_ALL": "Recibir Todo",

@@ -10,7 +10,7 @@
         "CANCEL": "Anuluj",
         "ACCEPT": "Akceptuj",
         "DELETE": "Usuń",
-        "UNLINK": "Unlink",
+        "UNLINK": "Odłącz",
         "CREATE": "Stwórz",
         "ADD": "Dodaj",
         "COPY_TO_CLIPBOARD": "Skopiuj do schowka: Ctrl+C",
@@ -47,7 +47,8 @@
         "RELATED_USERSTORIES": "Powiązane historyjki użytkownika",
         "CARD": {
             "ASSIGN_TO": "Przypisz Do",
-            "EDIT": "Edit card"
+            "EDIT": "Edit card",
+            "DELETE": "Delete card"
         },
         "FORM_ERRORS": {
             "DEFAULT_MESSAGE": "Nieprawidłowa wartość",
@@ -143,11 +144,14 @@
             "SEVERITY": "Ważność",
             "PRIORITY": "Priorytet",
             "ASSIGNED_TO": "Przydzielone do",
+            "ASSIGNED_USERS": "Assigned users",
             "POINTS": "Punkty",
             "IS_BLOCKED": "zablokowana",
             "REF": "Ref",
             "VOTES": "Głosy",
-            "SPRINT": "Sprint"
+            "SPRINT": "Sprint",
+            "DUE_DATE": "Due date",
+            "DUE_DATE_REASON": "Due date reason"
         },
         "ROLES": {
             "ALL": "Wszystko"
@@ -161,6 +165,17 @@
             "CONFIRM_UNASSIGNED": "Jesteś pewny, że chcesz pozostawić nieprzypisane?",
             "TITLE_ACTION_EDIT_ASSIGNMENT": "Edytuj przypisanie",
             "SELF": "Przypisz do mnie"
+        },
+        "DUE_DATE": {
+            "TITLE_ACTION_SET_DUE_DATE": "Set due date",
+            "DUE_SOON": "due soon",
+            "PAST_DUE": "past due date",
+            "NO_LONGER_APPLICABLE": "no longer applicable"
+        },
+        "ASSIGNED_USERS": {
+            "ADD": "Select assigned user",
+            "ADD_ASSIGNED": "Add assigned",
+            "TITLE_LIGHTBOX_DELETE_ASSIGNED": "Delete assigned..."
         },
         "STATUS": {
             "CLOSED": "Zamknięte",
@@ -207,6 +222,7 @@
                 "PRIORITIES": "Priorytety",
                 "TAGS": "Tagi",
                 "ASSIGNED_TO": "Przypisane do",
+                "ROLE": "Rola",
                 "CREATED_BY": "Stworzona przez",
                 "CUSTOM_FILTERS": "Filtry niestandardowe",
                 "EPIC": "Epic"
@@ -290,7 +306,7 @@
         "ACTION_ENTER": "Wprowadź",
         "ACTION_SIGN_IN": "Zaloguj",
         "PLACEHOLDER_AUTH_PASSWORD": "Hasło (uwzględnij wielkość liter)",
-        "ALT_LOGIN": "Or login with"
+        "ALT_LOGIN": "Lub zaloguj z"
     },
     "LOGIN_FORM": {
         "ERROR_AUTH_INCORRECT": "Nasze Umpa Lumpy twierdzą,że Twój login/e-mail lub hasło nie są poprawne.",
@@ -360,7 +376,7 @@
         "EMPTY_PROJECT_LIST": "Nie masz jeszcze żadnych projektów",
         "WORKING_ON_SECTION": "Pracujesz nad",
         "WATCHING_SECTION": "Obserwujesz",
-        "DASHBOARD": "Projects Dashboard"
+        "DASHBOARD": "Panel projektów"
     },
     "EPICS": {
         "TITLE": "EPIKI",
@@ -444,7 +460,7 @@
             "ADD_BUTTON": "+ Nowy członek",
             "ADD_BUTTON_TITLE": "Dodaj nowego członka",
             "LIMIT_USERS_WARNING_MESSAGE_FOR_ADMIN": "Niestety ten projekt osiągnął maksymalną liczbę <strong>{{{members}}}</strong> dozwolonych użytkowników.",
-            "LIMIT_USERS_WARNING_MESSAGE_FOR_OWNER": "This project has reached its limit of <strong>({{members}})</strong> allowed members. If you would like to increase that limit please contact the administrator."
+            "LIMIT_USERS_WARNING_MESSAGE_FOR_OWNER": "Ten projekt osiągną limit <strong>({{members}})</strong> użytkowników. Jeśli chcesz zwiększyć ten limit, skontaktuj się z administratorem."
         },
         "PROJECT_EXPORT": {
             "TITLE": "Eksport",
@@ -493,11 +509,11 @@
             "DESCRIPTION": "Opis",
             "RECRUITING": "Czy ten pojekt szuka uczestników?",
             "RECRUITING_MESSAGE": "Kogo szukasz?",
-            "RECRUITING_PLACEHOLDER": "Define the profiles you are looking for",
+            "RECRUITING_PLACEHOLDER": "Zdefiniuj jakich profilów szukasz",
             "FEEDBACK": "Receive feedback from Taiga users?",
             "PUBLIC_PROJECT": "Projekt publiczny",
             "PRIVATE_PROJECT": "Projekt prywatny",
-            "PRIVATE_OR_PUBLIC": "What's the difference between public and private projects?",
+            "PRIVATE_OR_PUBLIC": "Jaka jest różnica między publicznymi a prywatnymi projektami?",
             "DELETE": "Usuń ten projekt",
             "CHANGE_LOGO": "Zmień logo",
             "ACTION_USE_DEFAULT_LOGO": "Użyj domyślnego obrazu",
@@ -575,7 +591,7 @@
             "ACTION_ADD": "Dodaj nową ważność"
         },
         "PROJECT_VALUES_STATUS": {
-            "TITLE": "Statuses",
+            "TITLE": "Statusy",
             "SUBTITLE": "Zdefiniuj statusy dla historyjek użytkownika, zadań i zgłoszeń.",
             "EPIC_TITLE": "Epic Statuses",
             "US_TITLE": "User Story Statuses",
@@ -590,8 +606,8 @@
         },
         "PROJECT_VALUES_TAGS": {
             "TITLE": "Tagi",
-            "SUBTITLE": "View and edit the color of your tags",
-            "EMPTY": "Currently there are no tags",
+            "SUBTITLE": "Zobacz i edytuj kolory tagów",
+            "EMPTY": "Aktualnie nie ma tu tagów",
             "EMPTY_SEARCH": "Nie znaleziono niczego, co spełniałoby podane kryteria.",
             "ACTION_ADD": "Dodaj tag",
             "NEW_TAG": "Nowy tag",
@@ -766,9 +782,9 @@
                 "PROJECTS_TAB": "Projekty",
                 "PROJECTS_TAB_TITLE": "Lista wszystkich projektów, do których należy użytkownik",
                 "LIKES_TAB": "Polubienia",
-                "LIKES_TAB_TITLE": "List all likes made by this user",
+                "LIKES_TAB_TITLE": "Zobacz wszystkie polubienia tego użytkownika",
                 "VOTES_TAB": "Głosy",
-                "VOTES_TAB_TITLE": "List all votes made by this user",
+                "VOTES_TAB_TITLE": "Zobacz wszystkie głosy tego użytkownika",
                 "WATCHED_TAB": "Obserwowane",
                 "WATCHED_TAB_TITLE": "List all item watched by this user",
                 "CONTACTS_TAB": "Kontakty",
@@ -777,7 +793,7 @@
         },
         "PROFILE_SIDEBAR": {
             "TITLE": "Twój profil",
-            "DESCRIPTION": "People can see everything you do and what you are working on. Add a nice bio to give an enhanced version of your information.",
+            "DESCRIPTION": "Ludzie mogą zobaczyć wszystko co robisz i nad czym pracujesz. Dodaj dobre bio, żeby przedstawić więcej informacji.",
             "ADD_INFO": "Edytuj biografię"
         },
         "PROFILE_FAVS": {
@@ -865,7 +881,7 @@
         },
         "CONTACT_BUTTON": {
             "CONTACT_TITLE": "Contact the project team",
-            "CONTACT_BUTTON": "Contact the project"
+            "CONTACT_BUTTON": "Skontaktuj się z projektem"
         },
         "CREATE": {
             "TITLE": "Utwórz projekt",
@@ -890,17 +906,17 @@
             "PRIVATE_PROJECT": "Projekt prywatny"
         },
         "COMMON": {
-            "DETAILS": "New project details",
+            "DETAILS": "Szczegóły nowego projektu",
             "PROJECT_TITLE": "Nazwa Projektu",
             "PROJECT_DESCRIPTION": "Project Description"
         },
         "DUPLICATE": {
-            "TITLE": "Duplicate Project",
+            "TITLE": "Duplikuj projekt",
             "DESCRIPTION": "Start clean and keep your configuration",
             "SELECT_PLACEHOLDER": "Choose an existing project to duplicate"
         },
         "IMPORT": {
-            "TITLE": "Import Project",
+            "TITLE": "Importuj projekt",
             "DESCRIPTION": "Import your project from multiple platforms into Taiga",
             "ASYNC_IN_PROGRESS_TITLE": "Umpa Lumpy importują projekt",
             "ASYNC_IN_PROGRESS_MESSAGE": "To może zając kilka minut. <br/> Otrzymasz mail gdy wszystko będzie gotowe.",
@@ -1016,7 +1032,7 @@
             "CONFIRM": "Czy na pewno chcesz usunąć swoje konto z Taiga?",
             "CANCEL": "Powrót do ustawień",
             "ACCEPT": "Usuń konto",
-            "BLOCK_PROJECT": "Note that all the projects you own projects will be <strong>blocked</strong> after you delete your account. If you do want a project blocked, transfer ownership to another member of each project prior to deleting your account."
+            "BLOCK_PROJECT": "Note that all the projects you own projects will be <strong>blocked</strong> after you delete your account. If you do not want a project blocked, transfer ownership to another member of each project prior to deleting your account."
         },
         "DELETE_PROJECT": {
             "TITLE": "Usuń projekt",
@@ -1030,7 +1046,7 @@
         },
         "ADD_MEMBER": {
             "TITLE": "Nowy Członek",
-            "PLACEHOLDER": "Filter users or write an email to invite",
+            "PLACEHOLDER": "Filtruj użytkowników lub napisz emaila, żeby zaprosić",
             "ADD_EMAIL": "Dodaj e-mail",
             "REMOVE": "Usuń",
             "INVITE": "Zaproś",
@@ -1065,13 +1081,19 @@
             "PLACEHOLDER_STATUS": "Status zadania",
             "OPTION_UNASSIGNED": "Nieprzypisane",
             "PLACEHOLDER_SHORT_DESCRIPTION": "Wpisz krótki opis",
-            "ACTION_EDIT": "Zmień zadanie"
+            "ACTION_EDIT": "Zmień zadanie",
+            "CONFIRM_CLOSE": "You have not saved changes.\nAre you sure you want to close the form?"
         },
         "CREATE_EDIT_US": {
             "TITLE": "Nowa historyjka użytkownika",
             "PLACEHOLDER_DESCRIPTION": "Dodaj proszę treściwy opis, który pomoże innym zrozumieć tę historyjkę",
             "NEW_US": "Nowa historyjka użytkownika",
-            "EDIT_US": "Zmień historyjkę użytkownika"
+            "EDIT_US": "Zmień historyjkę użytkownika",
+            "CONFIRM_CLOSE": "You have not saved changes.\nAre you sure you want to close the form?"
+        },
+        "DELETE_DUE_DATE": {
+            "TITLE": "Delete due date",
+            "SUBTITLE": "Are you sure you want to delete this due date?"
         },
         "DELETE_SPRINT": {
             "TITLE": "Usuń sprint"
@@ -1083,35 +1105,48 @@
             "LIMIT_USERS_WARNING_MESSAGE": "You are about to reach the maximum number of members allowed for this project, <strong>{{maxMembers}}</strong> members."
         },
         "LEAVE_PROJECT_WARNING": {
-            "TITLE": "Unfortunately, this project can't be left without an owner",
+            "TITLE": "Niestety, ten projekt nie może zostać opuszczony bez właściciela",
             "CURRENT_USER_OWNER": {
-                "DESC": "You are the current owner of this project. Before leaving, please transfer ownership to someone else.",
-                "BUTTON": "Change the project owner"
+                "DESC": "Jesteś aktualnym właścicielem tego projektu. Przed opuszczeniem przetransferuj własność do kogoś innego.",
+                "BUTTON": "Zmień właściciela projektu"
             },
             "OTHER_USER_OWNER": {
-                "DESC": "Unfortunately, you can't delete a member who is also the current project owner. First, please assign a new project owner.",
+                "DESC": "Niestety, nie możesz usunąć użytkownika kto jest również aktualnym właścicielem projektu. Najpierw proszę ustaw nowego właściciela projektu.",
                 "BUTTON": "Request project owner change"
             }
         },
         "CHANGE_OWNER": {
             "TITLE": "Kto ma być nowym właścicielem projektu?",
             "ADD_COMMENT": "Dodaj komentarz",
-            "BUTTON": "Ask this project member to become the new project owner"
+            "BUTTON": "Poproś tego użytkownika o zostanie nowym właścicielem projektu"
         },
         "CONTACT_PROJECT": {
             "TITLE": "Wyślij e-mail do",
             "WARNING": "The email will be received by the project admins",
             "PLACEHOLDER": "Write your message",
             "SEND": "Wyślij"
+        },
+        "SET_DUE_DATE": {
+            "TITLE": "Set due date",
+            "PLACEHOLDER_DUE_DATE": "Select date",
+            "REASON_FOR_DUE_DATE": "Reason for the due date",
+            "PLACEHOLDER_REASON_FOR_DUE_DATE": "Why does this US need a due date?",
+            "SUGGESTIONS": {
+                "IN_ONE_WEEK": "In one week",
+                "IN_TWO_WEEKS": "In two weeks",
+                "IN_ONE_MONTH": "In one month",
+                "IN_THREE_MONTHS": "In three months"
+            },
+            "TITLE_ACTION_DELETE_DUE_DATE": "Delete due date"
         }
     },
     "EPIC": {
         "PAGE_TITLE": "{{epicSubject}} - Epic {{epicRef}} - {{projectName}}",
-        "PAGE_DESCRIPTION": "Status: {{epicStatus }}. Description: {{epicDescription}}",
+        "PAGE_DESCRIPTION": "Status: {{epicStatus }}. Opis: {{epicDescription}}",
         "SECTION_NAME": "Epic",
         "TITLE_LIGHTBOX_UNLINK_RELATED_USERSTORY": "Unlink related userstory",
         "MSG_LIGHTBOX_UNLINK_RELATED_USERSTORY": "It will delete the link to the related userstory '{{subject}}'",
-        "ERROR_UNLINK_RELATED_USERSTORY": "We have not been able to unlink: {{errorMessage}}",
+        "ERROR_UNLINK_RELATED_USERSTORY": "Nie byliśmy w stanie odlinkować: {{errorMessage}}",
         "CREATE_RELATED_USERSTORIES": "Stwórz relację z",
         "NEW_USERSTORY": "Nowa historyjka użytkownika",
         "EXISTING_USERSTORY": "Istniejąca historia użytkownika",
@@ -1121,6 +1156,7 @@
         "CHOOSE_PROJECT_FROM": "Co to za projekt?",
         "CHOOSE_USERSTORY": "What's the user story?",
         "NO_USERSTORIES": "This project has no User Stories yet. Please select another project.",
+        "NO_USERSTORIES_FOUND": "Nie znaleziono niczego, co spełniałoby podane kryteria.",
         "FILTER_USERSTORIES": "Filter user stories",
         "LIGHTBOX_TITLE_BLOKING_EPIC": "Blocking epic",
         "ACTION_DELETE": "Delete epic"
@@ -1178,10 +1214,10 @@
         "ACTIVITIES_COUNT": "{{activities}} Aktywności",
         "TAGS_ADDED": "dodano klucz",
         "TAGS_REMOVED": "usunięto tag:",
-        "US_POINTS": "{{role}} points",
+        "US_POINTS": "{{role}} punktów",
         "NEW_ATTACHMENT": "nowy załącznik",
         "DELETED_ATTACHMENT": "załącznik usunięty:",
-        "UPDATED_ATTACHMENT": "updated attachment ({{filename}}):",
+        "UPDATED_ATTACHMENT": "zaktualizowany załącznik ({{filename}}):",
         "CREATED_CUSTOM_ATTRIBUTE": "created custom attribute",
         "UPDATED_CUSTOM_ATTRIBUTE": "updated custom attribute",
         "BECAME_DEPRECATED": "became deprecated",
@@ -1190,14 +1226,19 @@
         "CLIENT_REQUIREMENT": "Wymaganie klienta",
         "BLOCKED": "Zablokowane",
         "VALUES": {
+            "NOT_SET": "not set",
             "UNASSIGNED": "nieprzypisany"
         },
         "FIELDS": {
             "SUBJECT": "temat",
             "DESCRIPTION": "opis",
+            "PRIORITY": "priorytet",
+            "SEVERITY": "ważność",
             "STATUS": "status",
             "TYPE": "typ",
             "ASSIGNED_TO": "przypisane do",
+            "ASSIGNED_USERS": "assigned users",
+            "DUE_DATE": "due date",
             "MILESTONE": "sprint",
             "COLOR": "kolor"
         }
@@ -1288,7 +1329,7 @@
         "NOT_FOUND": "Nie znaleziono",
         "NOT_FOUND_TEXT": "Błąd 404 - strona której szukasz nie istnieje. Wróć do strony głównej Taiga i zobacz, czy znajdziesz tam to, czego szukasz.",
         "PERMISSION_DENIED": "Dostęp zabroniony",
-        "PERMISSION_DENIED_TEXT": "You don't have permission to access to this page.",
+        "PERMISSION_DENIED_TEXT": "You don't have permission to access this page.",
         "VERSION_ERROR": "Odśwież i zastosuj zmiany ponownie gdyż może ktoś przed Tobą zapisał jakieś zmiany."
     },
     "TASKBOARD": {
@@ -1341,6 +1382,7 @@
         "SAVED": "Wszystkie zmiany zapisane!",
         "CLOSE": "Zamknij powiadomienie",
         "MAIL": "Powiadomienia na e-mail",
+        "DESKTOP": "Desktop notifications using browser alerts",
         "ASK_DELETE": "Czy na pewno chcesz usunąć?"
     },
     "CANCEL_ACCOUNT": {
@@ -1456,9 +1498,11 @@
             "SECTION_TITLE": "Ustawienia użytkownika",
             "USER_PROFILE": "Profil użytkownika",
             "CHANGE_PASSWORD": "Zmień hasło",
-            "EMAIL_NOTIFICATIONS": "Powiadomienia e-mail"
+            "EMAIL_NOTIFICATIONS": "Powiadomienia e-mail",
+            "DESKTOP_NOTIFICATIONS": "Desktop notifications"
         },
         "NOTIFICATIONS": {
+            "LIVE_SECTION_NAME": "Desktop Notifications",
             "SECTION_NAME": "Powiadomienia przez e-mail",
             "COLUMN_PROJECT": "Projekt",
             "COLUMN_RECEIVE_ALL": "Otrzymuj wszystkie",

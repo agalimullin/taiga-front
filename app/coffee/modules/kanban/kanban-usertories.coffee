@@ -89,20 +89,21 @@ class KanbanUserstoriesService extends taiga.Service
         @.order[it.id] = it.kanban_order for it in @.userstoriesRaw
 
     assignOrders: (order) ->
-        order = _.invert(order)
         @.order = _.assign(@.order, order)
 
         @.refresh()
 
-    move: (id, statusId, index) ->
-        us = @.getUsModel(id)
-
+    move: (usList, statusId, index) ->
+        initialLength = usList.length
+        
         usByStatus = _.filter @.userstoriesRaw, (it) =>
             return it.status == statusId
 
         usByStatus = _.sortBy usByStatus, (it) => @.order[it.id]
 
-        usByStatusWithoutMoved = _.filter usByStatus, (it) => it.id != id
+        usByStatusWithoutMoved = _.filter usByStatus, (listIt) ->
+            return !_.find usList, (moveIt) -> return listIt.id == moveIt.id
+
         beforeDestination = _.slice(usByStatusWithoutMoved, 0, index)
         afterDestination = _.slice(usByStatusWithoutMoved, index)
 
@@ -113,24 +114,66 @@ class KanbanUserstoriesService extends taiga.Service
         previousWithTheSameOrder = _.filter beforeDestination, (it) =>
             @.order[it.id] == @.order[previous.id]
 
+
         if previousWithTheSameOrder.length > 1
             for it in previousWithTheSameOrder
                 setOrders[it.id] = @.order[it.id]
 
-        if !previous
-            @.order[us.id] = 0
-        else if previous
-            @.order[us.id] = @.order[previous.id] + 1
+        modifiedUs = []
+        setPreviousOrders = []
+        setNextOrders = []
 
-        for it, key in afterDestination
-            @.order[it.id] = @.order[us.id] + key + 1
+        if !previous
+            startIndex = 0
+        else if previous
+            startIndex = @.order[previous.id] + 1
+
+            previousWithTheSameOrder = _.filter(beforeDestination, (it) =>
+                it.kanban_order == @.order[previous.id]
+            )   
+            for it, key in afterDestination # increase position of the us after the dragged us's
+                @.order[it.id] = @.order[previous.id] + key + initialLength + 1
+                it.kanban_order = @.order[it.id] 
+
+            setNextOrders = _.map(afterDestination, (it) =>
+                {us_id: it.id, order: @.order[it.id]}
+            )                          
+
+            # we must send the USs previous to the dropped USs to tell the backend
+            # which USs are before the dropped USs, if they have the same value to
+            # order, the backend doens't know after which one do you want to drop
+            # the USs     
+            if previousWithTheSameOrder.length > 1
+                setPreviousOrders = _.map(previousWithTheSameOrder, (it) =>
+                    {us_id: it.id, order: @.order[it.id]}
+                )
+
+        for us, key in usList
+            us.status = statusId
+            us.kanban_order = startIndex + key
+            @.order[us.id] = us.kanban_order
+
+            modifiedUs.push({us_id: us.id, order: us.kanban_order})           
+
+        @.refresh()
+
+        return {
+            bulkOrders: modifiedUs.concat(setPreviousOrders, setNextOrders),
+            usList: modifiedUs,
+            set_orders: setOrders
+        }
+
+    moveToEnd: (id, statusId) ->
+        us = @.getUsModel(id)
+
+        @.order[us.id] = -1
 
         us.status = statusId
         us.kanban_order = @.order[us.id]
 
         @.refresh()
 
-        return {"us_id": us.id, "order": @.order[us.id], "set_orders": setOrders}
+        return {"us_id": us.id, "order": -1}
 
     replace: (us) ->
         @.usByStatus = @.usByStatus.map (status) ->
@@ -180,6 +223,12 @@ class KanbanUserstoriesService extends taiga.Service
 
             us.id = usModel.id
             us.assigned_to = @.usersById[usModel.assigned_to]
+            us.assigned_users = []
+
+            usModel.assigned_users.forEach (assignedUserId) =>
+                assignedUserData = @.usersById[assignedUserId]
+                us.assigned_users.push(assignedUserData)
+
             us.colorized_tags = _.map us.model.tags, (tag) =>
                 return {name: tag[0], color: tag[1]}
 

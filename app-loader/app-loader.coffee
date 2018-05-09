@@ -12,6 +12,7 @@ window.taigaConfig = {
     "defaultTheme": "taiga",
     "publicRegisterEnabled": true,
     "feedbackEnabled": true,
+    "supportUrl": null,
     "privacyPolicyUrl": null,
     "termsOfServiceUrl": null,
     "maxUploadFileSize": null,
@@ -50,8 +51,8 @@ loadPlugin = (pluginPath) ->
             else
                 resolve()
 
-        fail = () ->
-            console.error("error loading", pluginPath)
+        fail = (a, errorStr, e) ->
+            console.error("error loading", pluginPath, e)
 
         $.getJSON(pluginPath).then(success, fail)
 
@@ -70,10 +71,14 @@ promise.fail () ->
     console.error "Your conf.json file is not a valid json file, please review it."
 
 promise.always ->
+    emojisPromise = $.getJSON("/#{window._version}/emojis/emojis-data.json").then (emojis) ->
+        window.emojis = emojis
     if window.taigaConfig.contribPlugins.length > 0
         loadPlugins(window.taigaConfig.contribPlugins).then () ->
             ljs.load "/#{window._version}/js/app.js", ->
-                angular.bootstrap(document, ['taiga'])
+                emojisPromise.then ->
+                    angular.bootstrap(document, ['taiga'])
     else
         ljs.load "/#{window._version}/js/app.js", ->
-            angular.bootstrap(document, ['taiga'])
+            emojisPromise.then ->
+                angular.bootstrap(document, ['taiga'])

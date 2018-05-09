@@ -251,8 +251,6 @@ Qqueue = ($q) ->
         bindAdd: (fn) =>
             return (args...) =>
                 lastPromise = lastPromise.then () => fn.apply(@, args)
-
-            return qqueue
         add: (fn) =>
             if !lastPromise
                 lastPromise = fn()
@@ -294,7 +292,6 @@ class QueueModelTransformation extends taiga.Service
 
     save: (transformation) ->
         defered = @q.defer()
-
         @qqueue.add () =>
             obj = @.getObj()
             comment = obj.comment
@@ -458,3 +455,17 @@ module.directive 'tgPreloadImage', () ->
 
                 preload(src, onLoad)
     }
+
+
+#############################################################################
+## Disable link href when Ctrl Key is pressed
+#############################################################################
+
+CtrlClickDisable = () ->
+    link = ($scope, $el, $attrs) ->
+        $el.on "click", ($event) ->
+            if ($event.ctrlKey || $event.metaKey)
+                $event.preventDefault()
+    return {link: link}
+
+module.directive("tgCtrlClickDisable", CtrlClickDisable)

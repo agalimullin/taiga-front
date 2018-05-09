@@ -401,7 +401,7 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
         @.initializeSubscription()
 
         return @.loadBacklog()
-            .then(=> @.generateFilters())
+            .then(=> @.generateFilters(milestone = "null"))
             .then(=> @scope.$emit("backlog:loaded"))
 
     prepareBulkUpdateData: (uses, field="backlog_order") ->
@@ -557,6 +557,8 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
         @.generateFilters().then () =>
             @rootscope.$broadcast("filters:update")
             @.loadProjectStats()
+            if @.isFilterDataTypeSelected('status')
+                @.filtersReloadContent()
 
     editUserStory: (projectId, ref, $event) ->
         target = $($event.target)

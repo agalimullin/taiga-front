@@ -1,0 +1,68 @@
+.due-date-button,
+[disabled].due-date-button {
+    background: $gray-light;
+    display: inline-block;
+    margin-right: .5rem;
+    padding: 1rem;
+    transition: background .2s linear;
+    transition-delay: .1s;
+    &.closed {
+        background: $gray-lighter;
+    }
+    &.due-set {
+        background: $yellow-green;
+    }
+    &.due-soon {
+        background: $my-sin;
+    }
+    &.past-due {
+        background: $red-light;
+    }
+    &:hover {
+        background: $gray;
+    }
+    &.editable {
+        cursor: pointer;
+    }
+}
+
+.due-date-icon {
+    display: inline-block;
+    margin: 0 .25rem;
+    position: relative;
+    svg {
+        fill: $gray-light;
+        transition: fill .2s ease-in;
+    }
+    &.closed svg {
+        fill: $gray-lighter;
+    }
+    &.due-set svg {
+        fill: $yellow-green;
+    }
+    &.due-soon svg {
+        fill: $my-sin;
+    }
+    &.past-due svg {
+        fill: $red-light;
+    }
+}
+
+.backlog-table-body .user-story-name,
+.related-tasks .task-name {
+    .due-date-icon {
+        top: .1rem;
+    }
+}
+
+.issues-table .subject .due-date-icon {
+    top: .25rem;
+}
+
+.card-statistics .due-date-icon {
+    margin: .1rem 0 0;
+    svg {
+        height: .9rem;
+        width: .9rem;
+    }
+}

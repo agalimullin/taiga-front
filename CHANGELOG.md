@@ -1,4 +1,57 @@
-# Changelog #
+# Changelog
+
+## 3.3.1 (2018-04-30)
+
+### Misc
+
+- Minor bug fixes.
+
+## 3.3.0 Picea mariana (2018-04-26)
+
+### Features
+
+- Add "live notifications" to Taiga:
+    - Add configuration in profile area.
+- Add "due date" in US, Tasks and Issues.
+- Add multiple assignement only in US.
+- Delete cards in Kanban and sprint Taskboard.
+
+## 3.2.3 (2018-04-04)
+
+### Misc
+
+- Minor bug fixes.
+- Update locales.
+
+## 3.2.2 (2018-03-15)
+
+### Misc
+
+- Minor bug fixes.
+
+## 3.2.1 (2018-03-08)
+
+### Misc
+- Fix multiple drag in macOS.
+- Repair collapsed column style.
+
+## 3.2.0 Betula nana (2018-03-07)
+
+### Features
+- Emojis support on subjects and tags.
+- Add "confirm dialog" before closing edit lightboxes.
+- Wiki activity hidden by default.
+- Allow ascending votes ordering in issues list.
+- Add multiple drag in Kanban.
+- Show US counter and wip limit in Kanban columns title.
+- Add role filtering in US.
+
+
+## 3.1.3 (2018-02-28)
+
+### Features
+- Minor bug fixes.
+
 
 ## 3.1.0 Perovskia Atriplicifolia (2017-03-10)
 
