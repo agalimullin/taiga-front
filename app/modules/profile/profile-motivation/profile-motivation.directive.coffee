@@ -17,9 +17,9 @@
 # File: profile-contacts.directive.coffee
 ###
 
-ProfileMotivationDirective = () ->
+ProfileContactsDirective = () ->
     link = (scope, elm, attrs, ctrl) ->
-        console.log('projects motivation open')
+        console.log('project motivation')
 
     return {
         templateUrl: "profile/profile-motivation/profile-motivation.html",
@@ -32,4 +32,4 @@ ProfileMotivationDirective = () ->
         bindToController: true
     }
 
-angular.module("taigaProfile").directive("tgProfileMotivation", ProfileMotivationDirective)
+angular.module("taigaProfile").directive("tgProfileMotivation", ProfileContactsDirective)

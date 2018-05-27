@@ -20,38 +20,16 @@
 class ProfileMotivationController
     @.$inject = [
         "tgUserService",
-        "tgCurrentUserService",
-        "tgProjectsService",
-        "$scope",
+        "tgCurrentUserService"
     ]
 
-    constructor: (@userService, @currentUserService, @projectsService, @scope) ->
+    constructor: (@userService, @currentUserService) ->
         @.currentUser = @currentUserService.getUser()
-        @projectsService.getProjectsByUserId(@.currentUser.get("id")).then (projects) =>
-            @.userProjects = projects.toJS()
-
-        @.currentDate = new Date();
 
         @.isCurrentUser = false
 
         if @.currentUser && @.currentUser.get("id") == @.user.get("id")
             @.isCurrentUser = true
-
-        @.loadStats()
-
-
-    loadStats: () ->
-        return @userService.getStats(@.user.get("id")).then (stats) =>
-            @.stats = stats.toJS()
-
-    isUserActiveInProjects: () ->
-        if @.stats["projects_activity"] == null
-            return 0
-        else
-            Object.keys(@.stats["projects_activity"]).length
-
-    getActivityProjectsLength: () ->
-        Object.keys(@.stats["projects_activity"]).length
 
 
 angular.module("taigaProfile")

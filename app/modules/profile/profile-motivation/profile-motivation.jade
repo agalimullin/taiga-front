@@ -1,21 +1,19 @@
 section.profile-contacts.profile-bar(style="width: 700px;")
-    div.profile-quote
-        span Каждому участнику проекта ежедневно в 00:00 начисляется определённое количество очков, если была проделана какая-то работа.<br>
+    div.profile-quote(ng-if='vm.user.get("id") == "34"')
+        span Каждому участнику проекта ежедневно начисляется +100 очков, если была проделана какая-то работа.<br>
         span В случае, если за день активность отсутствовала, все баллы участника&nbsp;
         span(style='color: red;') полностью сгорают.
-        p(style="font-weight: bold; color: slategray") <br>На {{::vm.currentDate | date:'dd.MM.yyyy'}} ситуация следующая:
-        div(ng-if="vm.stats.hasOwnProperty('projects_activity') && vm.isUserActiveInProjects()", ng-repeat="(project_id, p_a) in vm.stats['projects_activity']", style="background-color: #f5f5f5")
-            p(style="margin-top: 20px;") Проект&nbsp;
-                span(href="#", tg-nav="project:project='{{::vm.userProjects[project_id-1]['slug']}}'", class="proj-name-underline") {{::vm.userProjects[project_id-1]['name']}} &nbsp;
-                span() (+{{::vm.userProjects[project_id-1]['default_gamification_points']}} daily). Вы набрали:
-            div(
-                ng-style="p_a['isDowngrade'] && {'background-color':'#ec86a7'} || {'background-color': '#c5efc5'}",
-                style="background-color: #ec86a7; color: white; display: flex; justify-content: space-between; align-items: baseline;"
-                )
-                h1(style="font-size: 135px; color: gray;") {{::p_a['points']}}
-                span(style="color: black; font-size: 25px;") очков
-            div(ng-if="p_a['isDowngrade']")
-                span(style="font-weight: bold;") ПОНИЖЕНИЕ:&nbsp;
-                span За предыдущий день вы не проявили активности в данном проекте. Ваши очки сгорают, новые очки вы сможете получить в конце следующего дня, если проявите активность в работе.
-        div(ng-if="!vm.stats.hasOwnProperty('projects_activity') || !vm.isUserActiveInProjects()")
-            p Вы не участвуете ни в одном проекте
+        p(style="margin-top: 20px;") На текущий момент вы набрали:
+        div(style="background-color: #ec86a7; color: white; display: flex; justify-content: space-between; align-items: baseline;")
+            h1(style="font-size: 135px; color: gray;") 0
+            span(style="color: black; font-size: 25px;") очков
+        span(style="font-weight: bold;") ПОНИЖЕНИЕ:&nbsp;
+        span За предыдущий день вы не проявили активности в платформе. Ваши очки сгорают, следующие +100 очков вы сможете получить завтра, если сегодня проявите активность в работе.
+    div.profile-quote(ng-if='vm.user.get("id") != "34"')
+        span Каждому участнику проекта ежедневно начисляется +100 очков, если была проделана какая-то работа.<br>
+        span В случае, если за день активность отсутствовала, все баллы участника&nbsp;
+        span(style='color: red;') полностью сгорают.
+        p(style="margin-top: 20px;") На текущий момент вы набрали:
+        div(style="background-color: #c5efc5; color: white; display: flex; justify-content: space-between; align-items: baseline;")
+            h1(style="font-size: 135px; color: gray;") 200
+            span(style="color: black; font-size: 25px;") очков
