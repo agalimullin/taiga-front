@@ -1,0 +1,43 @@
+.table-responsive-vertical.shadow-z-1(ng-if="vm.projects.size")
+    table#table.table.table-hover.table-bordered.table-mc-light-green
+        thead
+            tr
+                th Проект
+                th Расчётное время окончания
+                th Расчётный % выполнения к сроку
+                th Индикатор
+        tbody
+            tr(tg-repeat="project in vm.projects")
+                td(
+                    tg-bind-scope
+                    data-title="projectName"
+                ) {{::(project.get('name'))}}
+                td(
+                    data-title="time"
+                    ng-if="project.get('lalala') != null"
+                ) {{::(project.get('total_story_points') / (project.get('lalala')*0.6)) * 2}} недели
+                td(
+                    data-title="time"
+                    ng-if="project.get('lalala') == null"
+                ) Нет спринтов
+                td(data-title="percent") {{:: project.get('percentage')}}
+                td(
+                    data-title="indicator",
+                    style="background-color: black"
+                    ng-if="(project.get('percentage') < 5) && (project.get('percentage') >= 0)"
+                )
+                td(
+                    data-title="indicator",
+                    style="background-color: red"
+                    ng-if="(project.get('percentage') < 35) && (project.get('percentage') > 5)"
+                )
+                td(
+                    data-title="indicator",
+                    style="background-color: yellow"
+                    ng-if="(project.get('percentage') < 65) && (project.get('percentage') > 35)"
+                )
+                td(
+                    data-title="indicator",
+                    style="background-color: green"
+                    ng-if="(project.get('percentage') < 100) && (project.get('percentage') > 65)"
+                )

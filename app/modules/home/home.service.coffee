@@ -186,7 +186,6 @@ class HomeService extends taiga.Service
             workInProgress = workInProgress.set("watching", watching)
 
             workInProgress = @._attachProjectInfoToWorkInProgress(workInProgress, projectsById)
-
             return workInProgress
 
 angular.module("taigaHome").service("tgHomeService", HomeService)

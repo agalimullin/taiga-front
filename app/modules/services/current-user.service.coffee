@@ -118,7 +118,6 @@ class CurrentUserService
         @._projects = @._projects.set("recents", projects.slice(0, 10))
 
         @._projectsById = Immutable.fromJS(groupBy(projects.toJS(), (p) -> p.id))
-
         return @.projects
 
     canCreatePrivateProjects: () ->

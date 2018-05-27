@@ -14,24 +14,23 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-# File: home-project-list.directive.coffee
+# File: profile-contacts.controller.coffee
 ###
 
-HomeProjectListDirective = (currentUserService) ->
-    link = (scope, el, attrs, ctrl) ->
-        scope.vm = {}
+class ProfileMotivationController
+    @.$inject = [
+        "tgUserService",
+        "tgCurrentUserService"
+    ]
 
-        taiga.defineImmutableProperty(scope.vm, "projects", () -> currentUserService.projects.get("recents"))
-    directive = {
-        templateUrl: "home/projects/home-project-list.html"
-        scope: {}
-        link: link
-    }
+    constructor: (@userService, @currentUserService) ->
+        @.currentUser = @currentUserService.getUser()
 
-    return directive
+        @.isCurrentUser = false
 
-HomeProjectListDirective.$inject = [
-    "tgCurrentUserService"
-]
+        if @.currentUser && @.currentUser.get("id") == @.user.get("id")
+            @.isCurrentUser = true
 
-angular.module("taigaHome").directive("tgHomeProjectList", HomeProjectListDirective)
+
+angular.module("taigaProfile")
+    .controller("ProfileMotivation", ProfileMotivationController)
