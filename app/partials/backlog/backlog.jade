@@ -34,33 +34,43 @@ div.wrapper(tg-backlog, ng-controller="BacklogController as ctrl",
                 div.burndown(tg-burndown-backlog-graph)
                     include ../includes/modules/burndown
 
-        img(
-            ng-if="cmd_path != null" ng-src="{{cmd_path}}", width='100%'
-        )
-        p.stats-charts(
-            ng-if="cmd_path == null"
-        ) У данного проекта пока что отсутствует Cumulative Flow Diagram
 
         img(
-            ng-if="us_dep_path != null" ng-src="{{us_dep_path}}", width='100%'
+            ng-src="/#{v}/images/agile_stats/burnup/project_{{project.id}}.png", width='100%'
         )
-        p.stats-charts(
-            ng-if="us_dep_path == null"
-        ) У данного проекта пока что отсутствует User Story Dependency chart
 
         img(
-            ng-if="burnup_path != null" ng-src="{{burnup_path}}", width='100%'
+        ng-src="/#{v}/images/agile_stats/velocity/project_{{project.id}}.png", width='100%'
         )
-        p.stats-charts(
-            ng-if="burnup_path == null"
-        ) У данного проекта пока что отсутствует Burnup graph
 
         img(
-            ng-if="velocity_path != null" ng-src="{{velocity_path}}", width='100%'
+        ng-src="/#{v}/images/agile_stats/cfd/project_{{project.id}}.png", width='100%'
         )
-        p.stats-charts(
-            ng-if="velocity_path == null"
-        ) У данного проекта пока что отсутствует Velocity chart
+
+        img(
+        ng-src="/#{v}/images/agile_stats/us_dependencies/project_{{project.id}}.png", width='100%'
+        )
+
+        //img(
+        //    ng-if="cmd_path != null" ng-src="{{cmd_path}}", width='100%'
+        //)
+        //p.stats-charts(
+        //    ng-if="cmd_path == null"
+        //) У данного проекта пока что отсутствует Cumulative Flow Diagram
+        //
+        //img(
+        //    ng-if="us_dep_path != null" ng-src="{{us_dep_path}}", width='100%'
+        //)
+        //p.stats-charts(
+        //    ng-if="us_dep_path == null"
+        //) У данного проекта пока что отсутствует User Story Dependency chart
+        //
+        //img(
+        //    ng-if="velocity_path != null" ng-src="{{velocity_path}}", width='100%'
+        //)
+        //p.stats-charts(
+        //    ng-if="velocity_path == null"
+        //) У данного проекта пока что отсутствует Velocity chart
 
         div.backlog-menu
             div.backlog-table-options

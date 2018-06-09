@@ -348,6 +348,7 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
             if stats.speed > 0 && backlog_points_sum > stats.speed
                 break
 
+
     loadProject: ->
         project = @projectService.project.toJS()
 
@@ -357,33 +358,33 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
         @scope.projectId = project.id
         @scope.project = project
 
-        # путь к снэпшоту Cumulative Flow Diagram
-        cmd_path = 'http://localhost:8000/media/agile_stats_snapshots/cfd/cfd_project_' + @scope.project.id + '.png'
-        if @imageExists(cmd_path)
-            @scope.cmd_path = cmd_path
-        else
-            @scope.cmd_path = null
+#        # путь к снэпшоту Burnup graph
+#        burnup_path = '/#' + '/images/agile_stats/burnup/project_' + @scope.project.id + '.png'
+#        if @imageExists(burnup_path)
+#            @scope.burnup_path = burnup_path
+#        else
+#            @scope.burnup_path = null
 
-        # путь к снэпшоту User Story Dependency graph
-        us_dep_path = 'http://localhost:8000/media/agile_stats_snapshots/dot/dependencies_project_' + @scope.project.id + '.png'
-        if @imageExists(us_dep_path)
-            @scope.us_dep_path = us_dep_path
-        else
-            @scope.us_dep_path = null
+#        # путь к снэпшоту Velocity chart
+#        velocity_path = 'http://localhost:8000/media/agile_stats_snapshots/velocity/velocity_project_' + @scope.project.id + '.png'
+#        if @imageExists(velocity_path)
+#            @scope.velocity_path = velocity_path
+#        else
+#            @scope.velocity_path = null
 
-        # путь к снэпшоту Burnup graph
-        burnup_path = 'http://localhost:8000/media/agile_stats_snapshots/burnup/burnup_project_' + @scope.project.id + '.png'
-        if @imageExists(burnup_path)
-            @scope.burnup_path = burnup_path
-        else
-            @scope.burnup_path = null
+#        # путь к снэпшоту Cumulative Flow Diagram
+#        cmd_path = 'http://localhost:8000/media/agile_stats_snapshots/cfd/cfd_project_' + @scope.project.id + '.png'
+#        if @imageExists(cmd_path)
+#            @scope.cmd_path = cmd_path
+#        else
+#            @scope.cmd_path = null
 
-        # путь к снэпшоту Velocity chart
-        velocity_path = 'http://localhost:8000/media/agile_stats_snapshots/velocity/velocity_project_' + @scope.project.id + '.png'
-        if @imageExists(velocity_path)
-            @scope.velocity_path = velocity_path
-        else
-            @scope.velocity_path = null
+#        # путь к снэпшоту User Story Dependency graph
+#        us_dep_path = 'http://localhost:8000/media/agile_stats_snapshots/dot/dependencies_project_' + @scope.project.id + '.png'
+#        if @imageExists(us_dep_path)
+#            @scope.us_dep_path = us_dep_path
+#        else
+#            @scope.us_dep_path = null
 
         @scope.closedMilestones = !!project.total_closed_milestones
         @scope.$emit('project:loaded', project)
@@ -612,6 +613,7 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
           end = moment(sprint.estimated_finish, 'YYYY-MM-DD').format('x')
 
           return currentDate >= start && currentDate <= end
+
 
 module.controller("BacklogController", BacklogController)
 

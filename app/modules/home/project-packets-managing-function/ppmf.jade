@@ -3,8 +3,9 @@
         thead
             tr
                 th Проект
-                th Расчётное время окончания
-                th Расчётный % выполнения к сроку
+                th % выполненной работы
+                th % прошедшего времени
+                th Выгрузка данных в файл формата .xls
                 th Индикатор
         tbody
             tr(tg-repeat="project in vm.projects")
@@ -13,31 +14,41 @@
                     data-title="projectName"
                 ) {{::(project.get('name'))}}
                 td(
-                    data-title="time"
-                    ng-if="project.get('lalala') != null"
-                ) {{::(project.get('total_story_points') / (project.get('lalala')*0.6)) * 2}} недели
+                    data-title="work_done_percent"
+                ) {{:: project.get('work_done_percentage')}}
+                td(data-title="past_time_percentage") {{:: project.get('past_time_percentage')}}
                 td(
-                    data-title="time"
-                    ng-if="project.get('lalala') == null"
-                ) Нет спринтов
-                td(data-title="percent") {{:: project.get('percentage')}}
+                    data-title="agile-data-export"
+                )
+                    img(
+                        tg-export-agile-data
+                        data-project-id="{{:: project.get('id')}}",
+                        src='/#{v}/images/xls.png',
+                        alt='Выгрузка в .xls',
+                        style='width:40px; height:auto; cursor: pointer'
+                    )
                 td(
                     data-title="indicator",
-                    style="background-color: black"
-                    ng-if="(project.get('percentage') < 5) && (project.get('percentage') >= 0)"
+                    style="background-color: #000000a8"
+                    ng-if="((project.get('past_time_percentage') - project.get('work_done_percentage')) > 50)"
                 )
                 td(
                     data-title="indicator",
-                    style="background-color: red"
-                    ng-if="(project.get('percentage') < 35) && (project.get('percentage') > 5)"
+                    style="background-color: #ff0000cc"
+                    ng-if="(project.get('past_time_percentage') - project.get('work_done_percentage')) > 30 && (project.get('past_time_percentage') - project.get('work_done_percentage')) < 50"
                 )
                 td(
                     data-title="indicator",
-                    style="background-color: yellow"
-                    ng-if="(project.get('percentage') < 65) && (project.get('percentage') > 35)"
+                    style="background-color: #efa723"
+                    ng-if="(project.get('past_time_percentage') - project.get('work_done_percentage')) > 0 && (project.get('past_time_percentage') - project.get('work_done_percentage')) < 30"
                 )
                 td(
                     data-title="indicator",
-                    style="background-color: green"
-                    ng-if="(project.get('percentage') < 100) && (project.get('percentage') > 65)"
+                    style="background-color: #539a53"
+                    ng-if="((project.get('work_done_percentage') >= project.get('past_time_percentage')) && (project.get('past_time_percentage') > 0))"
+                )
+                td(
+                    data-title="indicator",
+                    style="background-color: #f3f0f0; border: 1px solid #e0e0e0"
+                    ng-if="project.get('past_time_percentage') == 0"
                 )
