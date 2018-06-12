@@ -75,7 +75,8 @@ paths.css_vendor = [
     paths.app + "styles/vendor/*.css",
     paths.modules + "medium-editor/dist/css/medium-editor.css",
     paths.modules + "medium-editor/dist/css/themes/default.css",
-    paths.modules + "prismjs/themes/prism-okaidia.css"
+    paths.modules + "prismjs/themes/prism-okaidia.css",
+    paths.modules + "angular-gantt/dist/angular-gantt.css"
 ];
 paths.locales = paths.app + "locales/**/*.json";
 paths.modulesLocales = paths.app + "modules/**/locales/*.json";
@@ -188,6 +189,9 @@ paths.libs = [
     paths.modules + "prismjs/plugins/custom-class/prism-custom-class.js",
     paths.modules + "medium-editor-autolist/dist/autolist.js",
     paths.modules + "autolinker/dist/Autolinker.js",
+    paths.modules + "resize-sensor/ResizeSensor.min.js",
+    paths.modules + "css-element-queries/src/ElementQueries.js",
+    paths.modules + "angular-gantt/dist/angular-gantt.js",
     paths.app + "js/dom-autoscroller.js",
     paths.app + "js/dragula-drag-multiple.js",
     paths.app + "js/tg-repeat.js",

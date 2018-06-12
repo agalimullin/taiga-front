@@ -1297,6 +1297,7 @@
             "IOCAINE_DOSES": "iocaine<br />doses",
             "SHOW_STATISTICS_TITLE": "Show statistics",
             "TOGGLE_BAKLOG_GRAPH": "Show/Hide burndown graph",
+            "TOGGLE_GANTT_GRAPH": "Show/Hide gantt graph",
             "POINTS_PER_ROLE": "Points per role"
         },
         "SUMMARY": {

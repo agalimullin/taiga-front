@@ -87,6 +87,7 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
         @showTags = false
         @activeFilters = false
         @scope.showGraphPlaceholder = null
+        @scope.showGantGraphPlaceholder = null
         @displayVelocity = false
 
         @.initializeEventHandlers()
@@ -214,6 +215,7 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
                 @scope.stats.completedPercentage = 0
 
             @scope.showGraphPlaceholder = !(stats.total_points? && stats.total_milestones?)
+            @scope.showGanttGraphPlaceholder = !(stats.total_points? && stats.total_milestones?)
             @.calculateForecasting()
             return stats
 
@@ -1252,3 +1254,113 @@ TgBacklogProgressBarDirective = ($template, $compile) ->
     return {link: link}
 
 module.directive("tgBacklogProgressBar", ["$tgTemplate", "$compile", TgBacklogProgressBarDirective])
+
+#############################################################################
+## Gantt graph directive
+#############################################################################
+ToggleGanttVisibility = ($storage, $ctrl) ->
+    hide = () ->
+        $(".js-gantt-graph").removeClass("shown")
+        $(".js-toggle-gantt-visibility-button").removeClass("active")
+        $(".js-gantt-graph").removeClass("open")
+
+    show = (firstLoad) ->
+        $(".js-toggle-gantt-visibility-button").addClass("active")
+
+        if firstLoad
+            $(".js-gantt-graph").addClass("shown")
+        else
+            $(".js-gantt-graph").addClass("open")
+
+    link = ($scope, $el, $attrs, $ctrl) ->
+        firstLoad = true
+        hash = generateHash(["is-gantt-grpahs-collapsed"])
+        $scope.isGanttGraphCollapsed = $storage.get(hash) or false
+
+        $scope.data = []
+
+        $scope.$on("userstories:loaded", () ->
+
+          for spr,i in $scope.sprints
+            $scope.data.push {
+                title: spr.name
+                assignetTo: 'assignetTo'
+                daysTotal: 'days'
+                storyPoints: 'storyPoints'
+                status: 'status'
+                height: '3em'
+                sortable: false
+                classes: 'gantt-row-milestone '
+                color: '#b1e1cd'
+                tasks: [
+                  {
+                    title: ''
+                    color: '#b1e1cd'
+                    from: spr.estimated_start
+                    to: spr.estimated_finish
+                    classes: 'gantt-cell-milestone'
+                    data: ''
+                  }
+                ]
+                data: 'Can contain any custom data or object'
+            }
+            start = new Date(spr.estimated_start)
+            end = new Date(spr.estimated_finish)
+            timeDiff = Math.abs(end.getTime() - start.getTime())
+            diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
+
+            avgHoursPerStory = if spr.user_stories.length > 0 then diffDays / spr.user_stories.length else diffDays
+
+            for us, i in spr.user_stories
+              $scope.data.push {
+                    id: us.id
+                    title: if us.subject.length > 21 then us.subject.substring(0,21)+'...' else us.subject
+                    assignetTo: if us.assigned_to_extra_info then us.assigned_to_extra_info.full_name_display else ''
+                    daysTotal: avgHoursPerStory.toFixed 2
+                    storyPoints: us.total_points
+                    status: us.status_extra_info.name
+                    height: '1.4em'
+                    sortable: false
+                    classes: 'gantt-row-data'
+                    color: ''
+                    tasks: [
+                      {
+                        title: ''
+                        color: '#992afe'
+                        from: spr.estimated_start
+                        to: if us.due_date then us.due_date else spr.estimated_finish
+                        data: ''
+                      }
+                    ]
+                    data: ''
+                  }
+
+          )
+
+        toggleGantGraph = ->
+            if $scope.isGanttGraphCollapsed
+                hide(firstLoad)
+            else
+                show(firstLoad)
+
+            firstLoad = false
+
+        $scope.$watch "showGanttGraphPlaceholder", () ->
+            if $scope.showGanttGraphPlaceholder?
+                $scope.isGanttGraphCollapsed = $scope.isGanttGraphCollapsed || $scope.showGanttGraphPlaceholder
+                toggleGantGraph()
+
+        $el.on "click", ".js-toggle-gantt-visibility-button", ->
+            $scope.isGanttGraphCollapsed = !$scope.isGanttGraphCollapsed
+            $storage.set(hash, $scope.isGanttGraphCollapsed)
+            toggleGantGraph()
+
+        $scope.$on "$destroy", ->
+            $el.off()
+
+
+    return {
+        link: link
+    }
+
+module.directive("tgToggleGanttVisibility", ["$tgStorage","$rootScope", ToggleGanttVisibility ])
