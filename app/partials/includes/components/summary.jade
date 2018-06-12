@@ -17,6 +17,12 @@ div.summary
         span.number(ng-bind="stats.speed | number:0") --
         span.description(translate="BACKLOG.SUMMARY.POINTS_PER_SPRINT")
 
+    div.stats.js-toggle-gantt-visibility-button(
+          title="{{'BACKLOG.SPRINT_SUMMARY.TOGGLE_GANTT_GRAPH' | translate}}",
+          ng-if="!showGraphGantt"
+        )
+        tg-svg(svg-icon="icon-clipboard")
+
     div.stats.js-toggle-burndown-visibility-button(
           title="{{'BACKLOG.SPRINT_SUMMARY.TOGGLE_BAKLOG_GRAPH' | translate}}",
           ng-if="!showGraphPlaceholder"

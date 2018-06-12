@@ -21,7 +21,7 @@ div.wrapper(tg-backlog, ng-controller="BacklogController as ctrl",
     section.main.backlog
         include ../includes/components/mainTitle
 
-        div.backlog-summary(tg-toggle-burndown-visibility)
+        div.backlog-summary(tg-toggle-burndown-visibility,tg-toggle-gantt-visibility)
             include ../includes/components/summary
 
             div.empty-burndown(ng-if="showGraphPlaceholder && project.i_am_admin")
@@ -34,33 +34,9 @@ div.wrapper(tg-backlog, ng-controller="BacklogController as ctrl",
                 div.burndown(tg-burndown-backlog-graph)
                     include ../includes/modules/burndown
 
-        img(
-            ng-if="cmd_path != null" ng-src="{{cmd_path}}", width='100%'
-        )
-        p.stats-charts(
-            ng-if="cmd_path == null"
-        ) У данного проекта пока что отсутствует Cumulative Flow Diagram
-
-        img(
-            ng-if="us_dep_path != null" ng-src="{{us_dep_path}}", width='100%'
-        )
-        p.stats-charts(
-            ng-if="us_dep_path == null"
-        ) У данного проекта пока что отсутствует User Story Dependency chart
-
-        img(
-            ng-if="burnup_path != null" ng-src="{{burnup_path}}", width='100%'
-        )
-        p.stats-charts(
-            ng-if="burnup_path == null"
-        ) У данного проекта пока что отсутствует Burnup graph
-
-        img(
-            ng-if="velocity_path != null" ng-src="{{velocity_path}}", width='100%'
-        )
-        p.stats-charts(
-            ng-if="velocity_path == null"
-        ) У данного проекта пока что отсутствует Velocity chart
+            div.graphics-container.graphics-container-gantt.js-gantt-graph
+                div.gant(tg-gantt-backlog-graph)
+                    include ../includes/modules/gantt
 
         div.backlog-menu
             div.backlog-table-options
@@ -119,10 +95,10 @@ div.wrapper(tg-backlog, ng-controller="BacklogController as ctrl",
                 )
             include ../includes/components/addnewus
 
-        
+
         section.backlog-table(ng-class="{'hidden': !userstories.length}")
             include ../includes/modules/backlog-table
-            
+
         .forecasting-add-sprint.e2e-velocity-forecasting-add(ng-if="ctrl.displayVelocity")
             tg-svg(svg-icon="icon-add")
             span(
@@ -133,7 +109,7 @@ div.wrapper(tg-backlog, ng-controller="BacklogController as ctrl",
                 ng-if="currentSprint"
                 translate="BACKLOG.FORECASTING.CURRENT_SPRINT"
             )
-            
+
         .empty-large.js-empty-backlog(ng-class="{'hidden': userstories === undefined || userstories.length}")
             img(
                 src="/#{v}/images/empty/empty_mex.png"
@@ -151,7 +127,8 @@ div.wrapper(tg-backlog, ng-controller="BacklogController as ctrl",
     sidebar.menu-secondary.sidebar
         include ../includes/modules/sprints
 
-    div.lightbox.lightbox-generic-form.lightbox-create-edit(tg-lb-create-edit)
+    div.lightbox.lightbox-generic-form.lb-create-edit-userstory(tg-lb-create-edit-userstory)
+        include ../includes/modules/lightbox-us-create-edit
 
     div.lightbox.lightbox-generic-bulk(tg-lb-create-bulk-userstories)
         include ../includes/modules/lightbox-us-bulk

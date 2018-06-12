@@ -950,8 +950,7 @@ modules = [
     "gantt.table",
     "gantt.groups",
     "gantt.resizeSensor",
-    "gantt.overlap",
-    "thatisuday.modal"
+    "gantt.overlap"
 
 ].concat(pluginsModules)
 
