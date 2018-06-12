@@ -254,3 +254,11 @@ $summary-background: $grayer;
         transition: none;
     }
 }
+
+.gantt-side{
+  width: 60% !important;
+}
+.graphics-container.graphics-container-gantt.open,
+.graphics-container.graphics-container-gantt.shown{
+  max-height: inherit;
+}

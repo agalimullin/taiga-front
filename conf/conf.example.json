@@ -5,7 +5,7 @@
     "eventsHeartbeatIntervalTime": 60000,
     "eventsReconnectTryInterval": 10000,
     "debug": true,
-    "debugInfo": false,
+    "debugInfo": true,
     "defaultLanguage": "en",
     "themes": ["taiga"],
     "defaultTheme": "taiga",

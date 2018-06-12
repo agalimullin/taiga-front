@@ -897,7 +897,13 @@ modules = [
     "ngAria",
     "pascalprecht.translate",
     "infinite-scroll",
-    "tgRepeat"
+    "tgRepeat",
+    "gantt",
+    "gantt.table",
+    "gantt.groups",
+    "gantt.resizeSensor",
+    "gantt.overlap"
+
 ].concat(pluginsModules)
 
 # Main module definition
