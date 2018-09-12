@@ -21,7 +21,7 @@ div.wrapper(tg-backlog, ng-controller="BacklogController as ctrl",
     section.main.backlog
         include ../includes/components/mainTitle
 
-        div.backlog-summary(tg-toggle-burndown-visibility,tg-toggle-gantt-visibility)
+        div.backlog-summary(tg-toggle-burndown-visibility)
             include ../includes/components/summary
 
             div.empty-burndown(ng-if="showGraphPlaceholder && project.i_am_admin")
@@ -34,9 +34,71 @@ div.wrapper(tg-backlog, ng-controller="BacklogController as ctrl",
                 div.burndown(tg-burndown-backlog-graph)
                     include ../includes/modules/burndown
 
-            div.graphics-container.graphics-container-gantt.js-gantt-graph
-                div.gant(tg-gantt-backlog-graph)
-                    include ../includes/modules/gantt
+        // ###################### AGILE STATS ############################
+
+        p.stats-warning() Графики ниже обновляются после 18:00
+
+        img(
+            ng-if="project.burndown_forecast_image != null",
+            ng-src="{{project.burndown_forecast_image}}",
+            width='100%',
+            style="border: 2px solid #619487; margin-bottom: 2px;"
+        )
+        p.stats-charts(
+            ng-if="project.burndown_forecast_image == null"
+        ) У данного проекта пока что отсутствует Burndown forecast
+
+        img(
+            ng-if="project.burnup_image != null",
+            ng-src="{{project.burnup_image}}",
+            width='100%',
+            style="border: 2px solid #619487; margin-bottom: 2px;"
+        )
+        p.stats-charts(
+            ng-if="project.burnup_image == null"
+        ) У данного проекта пока что отсутствует Burnup chart
+
+        img(
+            ng-if="project.burnup_forecast_image != null",
+            ng-src="{{project.burnup_forecast_image}}", width='100%',
+            style="border: 2px solid #619487; margin-bottom: 2px;"
+        )
+        p.stats-charts(
+            ng-if="project.burnup_forecast_image == null"
+        ) У данного проекта пока что отсутствует Burnup forecast
+
+        img(
+            ng-if="project.cfd_image != null",
+            ng-src="{{project.cfd_image}}",
+            width='100%',
+            style="border: 2px solid #619487; margin-bottom: 2px;"
+        )
+        p.stats-charts(
+            ng-if="project.cfd_image == null"
+        ) У данного проекта пока что отсутствует Cumulative Flow Diagram
+
+        img(
+            ng-if="project.velocity_image != null",
+            ng-src="{{project.velocity_image}}",
+            width='100%',
+            style="border: 2px solid #619487; margin-bottom: 2px;"
+        )
+        p.stats-charts(
+            ng-if="project.velocity_image == null"
+        ) У данного проекта пока что отсутствует Velocity chart
+
+        tg-zoom-directive(
+            ng-if="project.us_dependencies_image != null",
+            src="{{ctrl.trustSrcurl(project.us_dependencies_image)}}",
+            frame="us-dep-frame",
+            img="us-dep-image",
+            zoomlvl="2.0"
+        )
+        p.stats-charts(
+            ng-if="project.us_dependencies_image == null"
+        ) У данного проекта пока что отсутствует User Story Dependency chart
+
+        // ###############################################################
 
         div.backlog-menu
             div.backlog-table-options
