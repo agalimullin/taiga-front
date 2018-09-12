@@ -6,8 +6,8 @@
 
 Инструкция по развертыванию frontend части приложения на локальной машине имеется на официальном сайте: https://taigaio.github.io/taiga-doc/dist/setup-development.html
 
-## Ссылка на исходный код в явном виде (в виде архива): ## 
-URL: https://drive.google.com/drive/folders/153D3SmK85vpBvTetKAG7sN4nShKBBg16
+## Ссылка на исходный код стабильно работающей версии проекта (в виде архива): ## 
+URL: https://drive.google.com/drive/folders/153D3SmK85vpBvTetKAG7sN4nShKBBg16 (рекомендуется удалить все существующие в backend части проекта миграции и создать их заново при помощи manage.py)
 
 #### В продукт были внедрены новые компоненты (в перечислении front+back компоненты): ####
 
