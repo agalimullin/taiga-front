@@ -16,6 +16,7 @@ window.taigaConfig = {
     "privacyPolicyUrl": null,
     "termsOfServiceUrl": null,
     "maxUploadFileSize": null,
+#    "importers": ["github", "trello", "jira", "asana"],
     "importers": [],
     "contribPlugins": []
 }

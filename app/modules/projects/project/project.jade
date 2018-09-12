@@ -1,6 +1,6 @@
 div.wrapper
     tg-project-menu
-    div.single-project.centered
+    div.single-project.centered(tg-toggle-gantt-visibility)
         section.single-project-intro
             .project-logo(
                 href="#"
@@ -46,9 +46,17 @@ div.wrapper
 
                 p.description {{vm.project.get('description')}}
 
+        div
+            a(href="", class="gantt-button")
+                span(class="text") Gantt Chart
+
         div.single-project-tags.tags-container(ng-if="::vm.project.get('tags').size")
             span.tag(tg-repeat="tag in ::vm.project.get('tags')")
                 span.tag-name {{::tag}}
+
+        div.graphics-container.graphics-container-gantt.js-gantt-graph(style="margin-bottom: 10px;")
+            div.gant(tg-gantt-backlog-graph)
+                include ../../../partials/includes/modules/gantt
 
         div.project-data
             section.timeline(ng-if="vm.project")

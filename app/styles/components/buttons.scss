@@ -195,3 +195,19 @@ a.button-gray {
         width: 1rem;
     }
 }
+
+.gantt-button,
+a.gantt-button {
+    @extend %button;
+    background: $primary;
+}
+.gantt-button span{
+    color: #d4d4d4;
+}
+.gantt-button,
+a.gantt-button.active{
+    background: $primary-light;
+}
+a.gantt-button.active span{
+    color: $white;
+}

@@ -198,7 +198,8 @@ paths.libs = [
     paths.app + "js/sha1-custom.js",
     paths.app + "js/murmurhash3_gc.js",
     paths.app + "js/medium-mention.js",
-    paths.app + "js/markdown-it-lazy-headers.js"
+    paths.app + "js/markdown-it-lazy-headers.js",
+    paths.app + "js/ngModal.js"
 ];
 
 paths.libs.forEach(function(file) {

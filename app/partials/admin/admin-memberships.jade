@@ -23,6 +23,27 @@ div.wrapper.memberships(
                     ng-click="ctrl.addNewMembers()"
                     ng-disabled="canAddUsers == false"
                 )
+        form.module-container(id="gamificationSave")
+            div.module.module-scrum
+                .module-desc
+                    p() Каждому участнику проекта ежедневно начисляется +100 очков, если была проделана какая-то работа. В случае, если за день активность отсутствовала, все баллы участника&nbsp;
+                        span(style='color: red;') полностью сгорают.
+                    .module-desc-options(style="display: flex; align-items: flex-start")
+
+                        fieldset
+                            label(for="gamification-points") Default gamification points
+                            input(
+                                id="gamification-points"
+                                name="gamification-points"
+                                type="number"
+                                placeholder="0"
+                                ng-model="project.default_gamification_points"
+                                data-type="digits"
+                            )
+                        .options(style="align-self: flex-end; display: flex; align-items: center; height: 2.5rem; margin-left: 5px;")
+                            a.save(ng-click = "ctrl.saveDefaultProjectGamificationPoints()", href="")
+                                tg-svg(svg-icon="icon-save")
+
 
 
         include ../includes/modules/admin/admin-membership-table

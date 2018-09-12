@@ -256,8 +256,10 @@ $summary-background: $grayer;
 }
 
 .gantt-side{
-  width: 60% !important;
+    min-width: 215px;
+    max-width: 700px;
 }
+
 .graphics-container.graphics-container-gantt.open,
 .graphics-container.graphics-container-gantt.shown{
   max-height: inherit;

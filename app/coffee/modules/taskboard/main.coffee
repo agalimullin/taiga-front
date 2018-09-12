@@ -57,11 +57,12 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
         "tgErrorHandlingService",
         "tgTaskboardTasks",
         "$tgStorage",
-        "tgFilterRemoteStorageService"
+        "tgFilterRemoteStorageService",
     ]
 
     constructor: (@scope, @rootscope, @repo, @confirm, @rs, @rs2, @params, @q, @appMetaService, @location, @navUrls,
                   @events, @analytics, @translate, @errorHandlingService, @taskboardTasksService, @storage, @filterRemoteStorageService) ->
+        self = @
         bindMethods(@)
         @taskboardTasksService.reset()
         @scope.userstories = []
@@ -74,6 +75,25 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
 
         taiga.defineImmutableProperty @.scope, "usTasks", () =>
             return @taskboardTasksService.usTasks
+
+        @scope.modalCallbacks = {};
+        @scope.modalControls = {};
+        @scope.modalOptions = {
+            closable : true,
+            width:'1100px',
+            height: '700px',
+            thumbs: false,
+            animation: true,
+            animDropIn: 'fadeIn',
+            animDropOut: 'fadeOut',
+            animBodyIn: 'zoomIn',
+            animBodyOut: 'fadeOut'
+        };
+
+        @scope.modalCallbacks.onOpen = ->
+            self.scope.modalControls.showImage(0);
+            return
+
 
     firstLoad: () ->
         promise = @.loadInitialData()
@@ -378,9 +398,13 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin, taiga
         return @rs.projects.tagsColors(@scope.projectId).then (tags_colors) =>
             @scope.project.tags_colors = tags_colors._attrs
 
+
     loadSprint: ->
         return @rs.sprints.get(@scope.projectId, @scope.sprintId).then (sprint) =>
             @scope.sprint = sprint
+            @scope.galleryImages = [
+                {'imgURL' : sprint.burndown_forecast_image}
+            ]
             @scope.userstories = _.sortBy(sprint.user_stories, "sprint_order")
 
             @taskboardTasksService.setUserstories(@scope.userstories)

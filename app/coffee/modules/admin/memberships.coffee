@@ -51,11 +51,12 @@ class MembershipsController extends mixOf(taiga.Controller, taiga.PageMixin, tai
         "$tgAuth",
         "tgLightboxFactory",
         "tgErrorHandlingService",
-        "tgProjectService"
+        "tgProjectService",
+        "$tgModel"
     ]
 
     constructor: (@scope, @rootscope, @repo, @confirm, @rs, @params, @q, @location, @navUrls, @analytics,
-                  @appMetaService, @translate, @auth, @lightboxFactory, @errorHandlingService, @projectService) ->
+                  @appMetaService, @translate, @auth, @lightboxFactory, @errorHandlingService, @projectService, @model) ->
         bindMethods(@)
 
         @scope.project = {}
@@ -76,6 +77,7 @@ class MembershipsController extends mixOf(taiga.Controller, taiga.PageMixin, tai
 
     loadProject: ->
         project = @projectService.project.toJS()
+        project = @model.make_model("projects", project)
 
         if not project.i_am_admin
             @errorHandlingService.permissionDenied()
@@ -137,6 +139,27 @@ class MembershipsController extends mixOf(taiga.Controller, taiga.PageMixin, tai
             name: icon,
             type: "img"
         })
+
+    saveDefaultProjectGamificationPoints: ->
+        self = @
+        form = $("#gamificationSave").checksley()
+        form.initializeFields() # Need to reset the form constrains
+        form.reset() # Need to reset the form constrains
+        return if not form.validate()
+
+        promise = @repo.save(@scope.project)
+
+        promise.then ->
+            console.log(self.scope.project)
+            self.scope.$emit("project:loaded", self.scope.project)
+            self.confirm.notify("success")
+
+            self.projectService.fetchProject()
+
+        promise.then null, (data) ->
+            form.setErrors(data)
+            if data._error_message
+                self.confirm.notify("error", data._error_message)
 
 module.controller("MembershipsController", MembershipsController)
 

@@ -42,6 +42,7 @@ module = angular.module("taigaBacklog")
 class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.FiltersMixin, taiga.UsFiltersMixin)
     @.$inject = [
         "$scope",
+        "$sce",
         "$rootScope",
         "$tgRepo",
         "$tgConfirm",
@@ -68,7 +69,7 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
     backlogOrder: {}
     milestonesOrder: {}
 
-    constructor: (@scope, @rootscope, @repo, @confirm, @rs, @params, @q, @location, @appMetaService, @navUrls,
+    constructor: (@scope, @sce, @rootscope, @repo, @confirm, @rs, @params, @q, @location, @appMetaService, @navUrls,
                   @events, @analytics, @translate, @loading, @rs2, @modelTransform, @errorHandlingService,
                   @storage, @filterRemoteStorageService, @projectService) ->
         bindMethods(@)
@@ -87,7 +88,6 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
         @showTags = false
         @activeFilters = false
         @scope.showGraphPlaceholder = null
-        @scope.showGantGraphPlaceholder = null
         @displayVelocity = false
 
         @.initializeEventHandlers()
@@ -113,12 +113,8 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
         # On Error
         promise.then null, @.onInitialDataError.bind(@)
 
-    # функция для проверки существования изображения на сервере
-    imageExists: (imageUrl) ->
-        http = new XMLHttpRequest
-        http.open 'HEAD', imageUrl, false
-        http.send()
-        http.status != 404
+    trustSrcurl: (data) ->
+        @sce.trustAsResourceUrl(data)
 
     filtersReloadContent: () ->
         @.loadUserstories(true)
@@ -215,7 +211,6 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
                 @scope.stats.completedPercentage = 0
 
             @scope.showGraphPlaceholder = !(stats.total_points? && stats.total_milestones?)
-            @scope.showGanttGraphPlaceholder = !(stats.total_points? && stats.total_milestones?)
             @.calculateForecasting()
             return stats
 
@@ -359,34 +354,6 @@ class BacklogController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.F
 
         @scope.projectId = project.id
         @scope.project = project
-
-#        # путь к снэпшоту Burnup graph
-#        burnup_path = '/#' + '/images/agile_stats/burnup/project_' + @scope.project.id + '.png'
-#        if @imageExists(burnup_path)
-#            @scope.burnup_path = burnup_path
-#        else
-#            @scope.burnup_path = null
-
-#        # путь к снэпшоту Velocity chart
-#        velocity_path = 'http://localhost:8000/media/agile_stats_snapshots/velocity/velocity_project_' + @scope.project.id + '.png'
-#        if @imageExists(velocity_path)
-#            @scope.velocity_path = velocity_path
-#        else
-#            @scope.velocity_path = null
-
-#        # путь к снэпшоту Cumulative Flow Diagram
-#        cmd_path = 'http://localhost:8000/media/agile_stats_snapshots/cfd/cfd_project_' + @scope.project.id + '.png'
-#        if @imageExists(cmd_path)
-#            @scope.cmd_path = cmd_path
-#        else
-#            @scope.cmd_path = null
-
-#        # путь к снэпшоту User Story Dependency graph
-#        us_dep_path = 'http://localhost:8000/media/agile_stats_snapshots/dot/dependencies_project_' + @scope.project.id + '.png'
-#        if @imageExists(us_dep_path)
-#            @scope.us_dep_path = us_dep_path
-#        else
-#            @scope.us_dep_path = null
 
         @scope.closedMilestones = !!project.total_closed_milestones
         @scope.$emit('project:loaded', project)
@@ -1255,112 +1222,71 @@ TgBacklogProgressBarDirective = ($template, $compile) ->
 
 module.directive("tgBacklogProgressBar", ["$tgTemplate", "$compile", TgBacklogProgressBarDirective])
 
-#############################################################################
-## Gantt graph directive
-#############################################################################
-ToggleGanttVisibility = ($storage, $ctrl) ->
-    hide = () ->
-        $(".js-gantt-graph").removeClass("shown")
-        $(".js-toggle-gantt-visibility-button").removeClass("active")
-        $(".js-gantt-graph").removeClass("open")
 
-    show = (firstLoad) ->
-        $(".js-toggle-gantt-visibility-button").addClass("active")
+TgZoomDirective = ($window) ->
 
-        if firstLoad
-            $(".js-gantt-graph").addClass("shown")
-        else
-            $(".js-gantt-graph").addClass("open")
+    link = ($scope, $element, $attrs) ->
+        #SETUP
+        frame = undefined
+        image = undefined
+        zoomlvl = undefined
+        fWidth = undefined
+        fHeight = undefined
+        rect = undefined
+        rootDoc = undefined
+        offsetL = undefined
+        offsetT = undefined
+        xPosition = undefined
+        yPosition = undefined
+        pan = undefined
+        #Template has loaded, grab elements.
+        $scope.$watch '$viewContentLoaded', ->
+            frame = angular.element(document.querySelector('#' + $scope.frame))[0]
+            image = angular.element(document.querySelector('#' + $scope.img))[0]
+            zoomlvl = if $scope.zoomlvl == undefined then '2.5' else $scope.zoomlvl
+            return
+        #MOUSE TRACKER OVER IMG
 
-    link = ($scope, $el, $attrs, $ctrl) ->
-        firstLoad = true
-        hash = generateHash(["is-gantt-grpahs-collapsed"])
-        $scope.isGanttGraphCollapsed = $storage.get(hash) or false
+        $scope.trackMouse = ($event) ->
+            fWidth = frame.clientWidth
+            fHeight = frame.clientHeight
+            rect = frame.getBoundingClientRect()
+            rootDoc = frame.ownerDocument.documentElement
+            #calculate the offset of the frame from the top and left of the document
+            offsetT = rect.top + $window.pageYOffset - (rootDoc.clientTop)
+            offsetL = rect.left + $window.pageXOffset - (rootDoc.clientLeft)
+            #calculate current cursor position inside the frame, as a percentage
+            xPosition = ($event.pageX - offsetL) / fWidth * 100
+            yPosition = ($event.pageY - offsetT) / fHeight * 100
+            pan = xPosition + '% ' + yPosition + '% 0'
+            image.style.transformOrigin = pan
+            return
 
-        $scope.data = []
-
-        $scope.$on("userstories:loaded", () ->
-
-          for spr,i in $scope.sprints
-            $scope.data.push {
-                title: spr.name
-                assignetTo: 'assignetTo'
-                daysTotal: 'days'
-                storyPoints: 'storyPoints'
-                status: 'status'
-                height: '3em'
-                sortable: false
-                classes: 'gantt-row-milestone '
-                color: '#b1e1cd'
-                tasks: [
-                  {
-                    title: ''
-                    color: '#b1e1cd'
-                    from: spr.estimated_start
-                    to: spr.estimated_finish
-                    classes: 'gantt-cell-milestone'
-                    data: ''
-                  }
-                ]
-                data: 'Can contain any custom data or object'
-            }
-            start = new Date(spr.estimated_start)
-            end = new Date(spr.estimated_finish)
-            timeDiff = Math.abs(end.getTime() - start.getTime())
-            diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
-
-            avgHoursPerStory = if spr.user_stories.length > 0 then diffDays / spr.user_stories.length else diffDays
-
-            for us, i in spr.user_stories
-              $scope.data.push {
-                    id: us.id
-                    title: if us.subject.length > 21 then us.subject.substring(0,21)+'...' else us.subject
-                    assignetTo: if us.assigned_to_extra_info then us.assigned_to_extra_info.full_name_display else ''
-                    daysTotal: avgHoursPerStory.toFixed 2
-                    storyPoints: us.total_points
-                    status: us.status_extra_info.name
-                    height: '1.4em'
-                    sortable: false
-                    classes: 'gantt-row-data'
-                    color: ''
-                    tasks: [
-                      {
-                        title: ''
-                        color: '#992afe'
-                        from: spr.estimated_start
-                        to: if us.due_date then us.due_date else spr.estimated_finish
-                        data: ''
-                      }
-                    ]
-                    data: ''
-                  }
-
-          )
-
-        toggleGantGraph = ->
-            if $scope.isGanttGraphCollapsed
-                hide(firstLoad)
-            else
-                show(firstLoad)
-
-            firstLoad = false
-
-        $scope.$watch "showGanttGraphPlaceholder", () ->
-            if $scope.showGanttGraphPlaceholder?
-                $scope.isGanttGraphCollapsed = $scope.isGanttGraphCollapsed || $scope.showGanttGraphPlaceholder
-                toggleGantGraph()
-
-        $el.on "click", ".js-toggle-gantt-visibility-button", ->
-            $scope.isGanttGraphCollapsed = !$scope.isGanttGraphCollapsed
-            $storage.set(hash, $scope.isGanttGraphCollapsed)
-            toggleGantGraph()
-
-        $scope.$on "$destroy", ->
-            $el.off()
-
+        #MOUSE OVER | ZOOM-IN
+        $element.on 'mouseover', (event) ->
+            image.style.transform = 'scale(' + zoomlvl + ')'
+            image.style.border = '2px solid #000'
+            return
+        #MOUSE OUT | ZOOM-OUT
+        $element.on 'mouseout', (event) ->
+            image.style.transform = 'scale(1)'
+            image.style.border = ''
+            return
+        return
 
     return {
+        restrict: 'EA'
+        scope:
+            src: '@src'
+            frame: '@frame'
+            img: '@img'
+            zoomlvl: '@zoomlvl'
+        template: [
+            '<div id="{{ frame }}" class="zoomPanFrame" >'
+            '<img id="{{ img }}" class="zoomPanImage" ng-src= "{{ src }}" ng-mousemove="trackMouse($event)" width="100%" style="cursor: zoom-in; position: relative; z-index: 1000"></img>'
+            '</div>'
+        ].join('')
         link: link
     }
 
-module.directive("tgToggleGanttVisibility", ["$tgStorage","$rootScope", ToggleGanttVisibility ])
+module.directive("tgZoomDirective", ["$window", TgZoomDirective])

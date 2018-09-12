@@ -20,6 +20,7 @@
 class HomeController
     @.$inject = [
         "tgCurrentUserService",
+        "tgProjectsService"
         "$tgHttp"
         "$location",
         "$tgNavUrls",
@@ -27,7 +28,7 @@ class HomeController
     ]
 
 
-    constructor: (@currentUserService, @http, @location, @navUrls, @scope) ->
+    constructor: (@currentUserService, @projectsService, @http, @location, @navUrls, @scope) ->
         if not @currentUserService.getUser()
             @location.path(@navUrls.resolve("discover"))
 

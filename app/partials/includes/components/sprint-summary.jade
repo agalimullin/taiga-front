@@ -42,3 +42,11 @@ div.summary.large-summary
 
     div.stats.toggle-analytics-visibility(title="{{'BACKLOG.SPRINT_SUMMARY.SHOW_STATISTICS_TITLE' | translate}}")
         tg-svg(svg-icon="icon-graph")
+
+    div.stats(ng-if="sprint.burndown_forecast_image != null", title="Open Modal")
+        img(
+            ng-click='modalControls.open();',
+            src='/#{v}/svg/icons/graph-forecast.png',
+            alt='Show burndown forecast',
+            style='cursor: pointer'
+        )

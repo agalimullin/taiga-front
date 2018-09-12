@@ -76,7 +76,7 @@ body {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  text-align: left;
+  text-align: center;
   padding: 1.6rem;
   vertical-align: top;
   border-top: 0;
@@ -126,6 +126,7 @@ body {
 .table-bordered > tfoot > tr > td {
   border: 0;
   border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
@@ -589,4 +590,12 @@ body {
   .table-responsive-vertical .table-hover.table-mc-deep-orange > tbody > tr > td:hover {
     background-color: #ffccbc;
   }
+}
+.proj-name-underline{
+  cursor: pointer;
+  color: #5b8200;
+}
+.proj-name-underline:hover{
+  text-decoration: underline;
+  text-decoration-color: black;
 }

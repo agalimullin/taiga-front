@@ -55,3 +55,5 @@ div.wrapper(
 
     div.lightbox.lightbox-select-user(tg-lb-assignedto)
         include ../common/lightbox/lightbox-assigned-to
+
+    ng-modal(options='modalOptions', controls='modalControls', callbacks='modalCallbacks', gallery='galleryImages', on-open='modalOnOpen();', on-close='modalOnClose();')
