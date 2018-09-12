@@ -256,12 +256,12 @@ $summary-background: $grayer;
     }
 }
 
-.gantt-side{
-    min-width: 215px;
+.gantt-side {
     max-width: 700px;
+    min-width: 215px;
 }
 
 .graphics-container.graphics-container-gantt.open,
-.graphics-container.graphics-container-gantt.shown{
-  max-height: inherit;
+.graphics-container.graphics-container-gantt.shown {
+    max-height: inherit;
 }

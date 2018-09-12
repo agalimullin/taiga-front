@@ -201,13 +201,13 @@ a.gantt-button {
     @extend %button;
     background: $primary;
 }
-.gantt-button span{
-    color: #d4d4d4;
+.gantt-button span {
+    color: $custom-white;
 }
 .gantt-button,
-a.gantt-button.active{
+a.gantt-button.active {
     background: $primary-light;
 }
-a.gantt-button.active span{
+a.gantt-button.active span {
     color: $white;
 }
