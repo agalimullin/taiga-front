@@ -1,0 +1,24 @@
+section.gantt-container
+  div.gantt
+    div(
+        gantt=''
+        data='data'
+        side-width="'2em'"
+        max-height="'300px'"
+        current-date="getToday"
+        column-width="40"
+        headers="['year','month', 'week']"
+        view-scale="week"
+        show-side="true"
+        )
+      gantt-table(columns="['model.title','model.assignetTo','model.daysTotal','model.storyPoints','model.status']")
+      gantt-groups
+      gantt-tooltips
+      gantt-bounds
+      gantt-progress
+      gantt-sortable
+      gantt-movable
+      gantt-draw-task
+      gantt-resize-sensor
+      gantt-overlap
+      gantt-dependencies
